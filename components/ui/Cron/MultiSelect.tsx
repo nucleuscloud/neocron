@@ -21,6 +21,7 @@ import { spreadOption } from "@/lib/units";
 
 interface Props {
   options: Unit;
+  onChange: (opt: string[]) => void;
 }
 
 export default function MultiSelect(props: Props) {
@@ -32,21 +33,28 @@ export default function MultiSelect(props: Props) {
   const [selectAll, setSelectAll] = useState<boolean>(false);
 
   const toggleOptions = (option: string) => {
-    setSelectedValues((currentOption) =>
-      !currentOption.includes(option)
+    setSelectedValues((currentOption) => {
+      const updatedOptions = !currentOption.includes(option)
         ? [...currentOption, option]
-        : currentOption.filter((l) => l !== option)
-    );
+        : currentOption.filter((l) => l !== option);
+
+      props.onChange(updatedOptions); // Notify parent about the change.
+
+      return updatedOptions;
+    });
     inputRef?.current?.focus();
   };
 
   const handleSelectAll = () => {
     if (!selectAll) {
       setSelectAll(true);
-      setSelectedValues(spreadOption(options));
+      const allOptions = spreadOption(options);
+      setSelectedValues(allOptions);
+      props.onChange(allOptions);
     } else {
       setSelectAll(false);
       setSelectedValues([]);
+      props.onChange([]); // Notify parent about the change.
     }
   };
 
