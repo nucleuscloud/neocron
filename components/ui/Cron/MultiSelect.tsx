@@ -58,6 +58,15 @@ export default function MultiSelect(props: Props) {
     }
   };
 
+  //formats options with alt text to include that
+  const formatOption = (option: string) => {
+    if (options?.alt) {
+      return option + " - " + options?.alt[Number(option)];
+    } else {
+      return option;
+    }
+  };
+
   return (
     <div className="flex flex-row items-center">
       <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
@@ -70,7 +79,7 @@ export default function MultiSelect(props: Props) {
           >
             {selectedValues?.sort().map((item) => (
               <Badge variant="secondary" key={item} className="mr-1 ">
-                {item}
+                {formatOption(item)}
               </Badge>
             ))}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -99,7 +108,7 @@ export default function MultiSelect(props: Props) {
                         isActive ? "opacity-100" : "opacity-0"
                       )}
                     />
-                    <div className="flex-1">{option}</div>
+                    <div className="flex-1">{formatOption(option)}</div>
                   </CommandItem>
                 );
               })}

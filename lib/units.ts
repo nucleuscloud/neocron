@@ -14,7 +14,7 @@ export const units: ReadonlyArray<Unit> = Object.freeze([
     max: 23,
   },
   {
-    name: "day",
+    name: "date",
     min: 1,
     max: 31,
   },
