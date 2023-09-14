@@ -1,5 +1,5 @@
 "use client";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -47,12 +47,12 @@ const FRAMEWORKS: Framework[] = [
   },
   {
     value: "Saturday",
-    label: "saturday",
+    label: "Saturday",
     color: "#8b5cf6",
   },
   {
     value: "Sunday",
-    label: "sunday",
+    label: "Sunday",
     color: "#8b5cf6",
   },
 ];
@@ -82,11 +82,6 @@ export default function MultiSelect() {
     inputRef?.current?.focus();
   };
 
-  const onComboboxOpenChange = (value: boolean) => {
-    inputRef.current?.blur(); // HACK: otherwise, would scroll automatically to the bottom of page
-    setOpenCombobox(value);
-  };
-
   const handleSelectAll = () => {
     if (!selectAll) {
       setSelectAll(true);
@@ -99,22 +94,19 @@ export default function MultiSelect() {
 
   return (
     <div className="flex flex-row items-center">
-      <Popover open={openCombobox} onOpenChange={onComboboxOpenChange}>
+      <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={openCombobox}
-            className="w-[200px] justify-between text-foreground"
+            className="justify-between text-foreground items-center"
           >
-            <span className="truncate">
-              {selectedValues.length === 0 && "Select labels"}
-              {selectedValues.length === 1 && selectedValues[0].label}
-              {selectedValues.length === 2 &&
-                selectedValues.map(({ label }) => label).join(", ")}
-              {selectedValues.length > 2 &&
-                `${selectedValues.length} labels selected`}
-            </span>
+            {selectedValues.map((item) => (
+              <Badge variant="secondary" key={item.label} className="mr-1 ">
+                {item.label}
+              </Badge>
+            ))}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -122,7 +114,7 @@ export default function MultiSelect() {
           <Command loop>
             <CommandInput
               ref={inputRef}
-              placeholder="Search framework..."
+              placeholder="Search values..."
               value={inputValue}
               onValueChange={setInputValue}
             />
@@ -159,18 +151,6 @@ export default function MultiSelect() {
           </Command>
         </PopoverContent>
       </Popover>
-      <div className="flex flex-row pl-5">
-        {selectedValues.map(({ label, value, color }) => (
-          <Badge
-            key={value}
-            variant="outline"
-            style={badgeStyle(color)}
-            className="mr-2 mb-2"
-          >
-            {label}
-          </Badge>
-        ))}
-      </div>
     </div>
   );
 }
