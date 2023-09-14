@@ -12,11 +12,12 @@ export type ValuePayload = {
 };
 
 export type Unit = {
-  name: "minute" | "hour" | "day" | "month" | "weekday";
+  name: "minute" | "hour" | "date" | "month" | "weekday";
   min: number;
   max: number;
   alt?: ReadonlyArray<string>;
 };
+
 export type Options = {
   outputHashes: boolean;
   outputWeekdayNames: boolean;

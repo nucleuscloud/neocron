@@ -1,45 +1,29 @@
 import { ReactElement, useState } from "react";
-import { Range } from "@/lib/utils";
-import { CronState, ValuePayload } from "@/types";
+import { CronState, Unit, ValuePayload } from "@/types";
+import MultiSelect from "./MultiSelect";
 
 interface Props {
-  id: string;
-  min: number;
-  max: number;
   index: number;
+  unit: Unit;
   state: CronState;
   setValue: (val: ValuePayload) => void;
 }
 
 export default function Part(props: Props): ReactElement {
-  const { id, min, max, index, state, setValue } = props;
-  const options = Range(min, max);
+  const { unit, state, index, setValue } = props;
 
   return (
     <div className="mx-10 flex flex-col lg:flex-row">
       <div>
-        <strong>{id}</strong>
+        <strong>{unit.name}</strong>
       </div>
       <div>
-        <select
-          id={id}
-          className="form-control"
-          multiple={true}
-          value={state.array[index]?.map(String)}
-          size={60}
+        <MultiSelect
+          options={unit}
           onChange={(e) => {
-            const selectedValues = Array.from(e.target.options)
-              .filter((o) => o.selected)
-              .map((o) => Number(o.value));
-            setValue({ index, values: selectedValues });
+            setValue({ index, values: e.map(Number) });
           }}
-        >
-          {options.map((value) => (
-            <option key={value} value={value}>
-              {value}
-            </option>
-          ))}
-        </select>
+        />
       </div>
     </div>
   );

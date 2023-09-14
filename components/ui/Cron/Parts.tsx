@@ -14,11 +14,13 @@ export default function Parts(props: Props): ReactElement {
     <div style={{ display: "flex" }}>
       {getUnits().map((unit, index) => (
         <Part
+          unit={unit}
           key={unit.name}
-          id={unit.name}
+          // key={unit.name}
+          // id={unit.name}
           index={index}
-          min={unit.min}
-          max={unit.max}
+          // min={unit.min}
+          // max={unit.max}
           state={state}
           setValue={setValue}
         />
