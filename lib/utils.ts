@@ -7,14 +7,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function Range(min: number, max: number) {
-  const arr: number[] = [];
-  for (let i = min; i <= max; i++) {
-    arr.push(i);
-  }
-  return arr;
-}
-
 export const defaultOptions: Options = {
   outputHashes: false,
   outputMonthNames: false,

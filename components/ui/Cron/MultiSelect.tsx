@@ -58,10 +58,15 @@ export default function MultiSelect(props: Props) {
     }
   };
 
-  //formats options with alt text to include that
+  //formats option with alt text to include that
   const formatOption = (option: string) => {
     if (options?.alt) {
-      return option + " - " + options?.alt[Number(option)];
+      if (options.name == "month") {
+        //month has a min of 1 instead of 0 so have to subtract 1 to get the index to work
+        return option + " - " + options?.alt[Number(option) - 1];
+      } else {
+        return option + " - " + options?.alt[Number(option)];
+      }
     } else {
       return option;
     }
