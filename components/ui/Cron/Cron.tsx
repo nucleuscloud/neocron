@@ -67,7 +67,6 @@ export default function Cron(): ReactElement {
       <Info />
       <CronExpression state={state} setExpression={setExpression} />
       <ScheduleExplainer state={state} />
-      <MultiSelect />
       <Parts state={state} setValue={setValue} />
     </div>
   );

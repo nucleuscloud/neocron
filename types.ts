@@ -17,6 +17,7 @@ export type Unit = {
   max: number;
   alt?: ReadonlyArray<string>;
 };
+
 export type Options = {
   outputHashes: boolean;
   outputWeekdayNames: boolean;

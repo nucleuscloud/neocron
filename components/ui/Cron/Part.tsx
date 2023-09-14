@@ -1,27 +1,30 @@
 import { ReactElement, useState } from "react";
 import { Range } from "@/lib/utils";
-import { CronState, ValuePayload } from "@/types";
+import { CronState, Unit, ValuePayload } from "@/types";
+import MultiSelect from "./MultiSelect";
 
 interface Props {
-  id: string;
-  min: number;
-  max: number;
+  // id: string;
+  // min: number;
+  // max: number;
   index: number;
+  unit: Unit;
   state: CronState;
   setValue: (val: ValuePayload) => void;
 }
 
 export default function Part(props: Props): ReactElement {
-  const { id, min, max, index, state, setValue } = props;
-  const options = Range(min, max);
+  const { unit, state, index, setValue } = props;
+  const options = Range(unit.min, unit.max);
 
   return (
     <div className="mx-10 flex flex-col lg:flex-row">
       <div>
-        <strong>{id}</strong>
+        <strong>{unit.name}</strong>
       </div>
       <div>
-        <select
+        <MultiSelect options={unit} />
+        {/* <select
           id={id}
           className="form-control"
           multiple={true}
@@ -39,7 +42,7 @@ export default function Part(props: Props): ReactElement {
               {value}
             </option>
           ))}
-        </select>
+        </select> */}
       </div>
     </div>
   );

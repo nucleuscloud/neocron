@@ -45,6 +45,19 @@ export const units: ReadonlyArray<Unit> = Object.freeze([
   },
 ]);
 
+//turns the min and max in the option into an array with all of the values
+//between min and max inclusive of the min and max so we can render them in the multi-select
+
+export const spreadOption = (option: Unit) => {
+  let spreadArr: string[] = [];
+
+  for (var i = option.min; i <= option.max; i++) {
+    spreadArr.push(String(i));
+  }
+
+  return spreadArr;
+};
+
 /**
  * Returns a readonly array of cron units.
  * These specify the minimum and maximum values

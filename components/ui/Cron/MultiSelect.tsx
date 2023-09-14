@@ -16,68 +16,26 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Unit } from "@/types";
+import { spreadOption } from "@/lib/units";
 
-type Framework = Record<"value" | "label" | "color", string>;
+interface Props {
+  options: Unit;
+}
 
-const FRAMEWORKS: Framework[] = [
-  {
-    value: "monday",
-    label: "Monday",
-    color: "#ef4444",
-  },
-  {
-    value: "tuesday",
-    label: "Tuesday",
-    color: "#eab308",
-  },
-  {
-    value: "wednesday",
-    label: "Wednesday",
-    color: "#22c55e",
-  },
-  {
-    value: "thursday",
-    label: "Thursday",
-    color: "#06b6d4",
-  },
-  {
-    value: "friday",
-    label: "Friday",
-    color: "#3b82f6",
-  },
-  {
-    value: "Saturday",
-    label: "Saturday",
-    color: "#8b5cf6",
-  },
-  {
-    value: "Sunday",
-    label: "Sunday",
-    color: "#8b5cf6",
-  },
-];
-
-const badgeStyle = (color: string) => ({
-  borderColor: `${color}20`,
-  backgroundColor: `${color}30`,
-  color,
-});
-
-export default function MultiSelect() {
+export default function MultiSelect(props: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [frameworks, setFrameworks] = useState<Framework[]>(FRAMEWORKS);
+  const { options } = props;
   const [openCombobox, setOpenCombobox] = useState(false);
   const [inputValue, setInputValue] = useState<string>("");
-  const [selectedValues, setSelectedValues] = useState<Framework[]>([
-    FRAMEWORKS[0],
-  ]);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
 
-  const toggleFramework = (framework: Framework) => {
-    setSelectedValues((currentFrameworks) =>
-      !currentFrameworks.includes(framework)
-        ? [...currentFrameworks, framework]
-        : currentFrameworks.filter((l) => l.value !== framework.value)
+  const toggleOptions = (option: string) => {
+    setSelectedValues((currentOption) =>
+      !currentOption.includes(option)
+        ? [...currentOption, option]
+        : currentOption.filter((l) => l !== option)
     );
     inputRef?.current?.focus();
   };
@@ -85,7 +43,7 @@ export default function MultiSelect() {
   const handleSelectAll = () => {
     if (!selectAll) {
       setSelectAll(true);
-      setSelectedValues(FRAMEWORKS);
+      setSelectedValues(spreadOption(options));
     } else {
       setSelectAll(false);
       setSelectedValues([]);
@@ -102,9 +60,9 @@ export default function MultiSelect() {
             aria-expanded={openCombobox}
             className="justify-between text-foreground items-center"
           >
-            {selectedValues.map((item) => (
-              <Badge variant="secondary" key={item.label} className="mr-1 ">
-                {item.label}
+            {selectedValues?.sort().map((item) => (
+              <Badge variant="secondary" key={item} className="mr-1 ">
+                {item}
               </Badge>
             ))}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -119,13 +77,13 @@ export default function MultiSelect() {
               onValueChange={setInputValue}
             />
             <CommandGroup className="max-h-[145px] overflow-auto">
-              {frameworks.map((framework) => {
-                const isActive = selectedValues.includes(framework);
+              {spreadOption(options).map((option) => {
+                const isActive = selectedValues?.includes(option);
                 return (
                   <CommandItem
-                    key={framework.value}
-                    value={framework.value}
-                    onSelect={() => toggleFramework(framework)}
+                    key={option}
+                    value={option}
+                    onSelect={() => toggleOptions(option)}
                   >
                     <Check
                       className={cn(
@@ -133,7 +91,7 @@ export default function MultiSelect() {
                         isActive ? "opacity-100" : "opacity-0"
                       )}
                     />
-                    <div className="flex-1">{framework.label}</div>
+                    <div className="flex-1">{option}</div>
                   </CommandItem>
                 );
               })}
