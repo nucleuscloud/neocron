@@ -1,6 +1,5 @@
 import { DateTime } from "luxon";
 import { assertValidArray } from "./utils";
-import { units } from "./units";
 
 export class Schedule {
   readonly arr: number[][];
@@ -47,10 +46,11 @@ export class Schedule {
   /**
    * Resets the iterator
    */
-  reset() {
+  reset = () => {
     this.pristine = true;
     this.date = this.now.plus(0);
-  }
+    // this.arr = stringToArray("*****")
+  };
 
   /**
    * Returns the time the schedule would run next
@@ -64,17 +64,6 @@ export class Schedule {
       this.date = this.date.plus({ minute: 1 });
     }
     this.date = findDate(this.arr, this.date, false);
-    return this.date;
-  }
-
-  /**
-   * Returns the time the schedule would have last run at
-   *
-   * @return The time the schedule would have last run at
-   */
-  prev() {
-    this.pristine = false;
-    this.date = findDate(this.arr, this.date, true);
     return this.date;
   }
 }

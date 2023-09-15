@@ -2,7 +2,6 @@ export type CronState = {
   expression: string;
   array: number[][];
   error: string;
-  prev: string;
   next: string;
 };
 
@@ -12,7 +11,7 @@ export type ValuePayload = {
 };
 
 export type Unit = {
-  name: "minute" | "hour" | "date" | "month" | "weekday";
+  name: "minute" | "hour" | "day" | "month" | "weekday";
   min: number;
   max: number;
   alt?: ReadonlyArray<string>;
@@ -25,3 +24,8 @@ export type Options = {
 };
 
 export type Error = "" | "invalid";
+
+export type ScheduleSelectorObject = {
+  name: string;
+  prefix: string;
+};

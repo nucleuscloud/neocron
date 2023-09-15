@@ -1,38 +1,38 @@
-" use client";
-import { ReactElement, useEffect, useState } from "react";
+"use client";
+import { ReactElement, useState } from "react";
 import CronExpression from "./CronExpression";
-import Info from "./Info";
-import Parts from "./Parts";
+import ScheduleSelectors from "./ScheduleSelectors";
 import { DateTime } from "luxon";
 import ScheduleExplainer from "./Schedule";
 import { arrayToString, stringToArray } from "@/lib/part";
 import { Schedule, getSchedule } from "@/lib/schedule";
-import { CronState, Error, ValuePayload } from "@/types";
-import MultiSelect from "./MultiSelect";
-
-//TODO: fix the way that the error gets set
+import { CronState, ValuePayload } from "@/types";
 
 export default function Cron(): ReactElement {
   const updateSchedule = (state: CronState): CronState => {
-    const schedule: Schedule = getSchedule(state.array);
+    const newSchedule = getSchedule(state.array);
+    setSchedule(newSchedule);
     return {
       ...state,
-      next: schedule.next().toLocaleString(DateTime.DATETIME_FULL),
-      prev: schedule.prev().toLocaleString(DateTime.DATETIME_FULL),
+      next: newSchedule.next().toLocaleString(DateTime.DATETIME_FULL),
     };
   };
 
   const getInitialState = (): CronState => {
-    const expression = "*/15 0-11 1,10,20 * *";
+    const expression = "* * * * *";
     const array = stringToArray(expression);
     return updateSchedule({
       expression,
       array,
       error: "",
-      prev: "",
       next: "",
     });
   };
+
+  const [schedule, setSchedule] = useState<Schedule>(
+    new Schedule(stringToArray("* * * * *"))
+  );
+  const [state, setState] = useState<CronState>(getInitialState);
 
   const setExpression = (expression: string) => {
     let newState: CronState = { ...state, expression, error: "" };
@@ -59,15 +59,32 @@ export default function Cron(): ReactElement {
     setState(newState);
   };
 
-  const [state, setState] = useState<CronState>(getInitialState);
+  const resetSchedule = () => {
+    schedule.reset;
+    setState(getInitialState());
+    console.log("state in cr", state.array);
+  };
 
   return (
     <div className="flex flex-col space-y-6">
-      <div className="text-4xl text-gray-900 text-center">NeoCron</div>
-      <Info />
       <CronExpression state={state} setExpression={setExpression} />
+      <ScheduleSelectors
+        setValue={setValue}
+        resetSchedule={resetSchedule}
+        state={state}
+      />
       <ScheduleExplainer state={state} />
-      <Parts state={state} setValue={setValue} />
     </div>
   );
 }
+
+//TODO: fix the selected values showing on the chips when the schedule is reset
+// and the ranges for when multiple values are selected in teh same selector
+
+//TODO: fix the height of the commands to be taller, maybe even double column it for the longer values like minutes and dates
+
+//TODO: fix the way that the error gets set
+
+//TODO: when clicking on the select everythign shifts right, fix that
+
+//TODO: align everything so that it looks nicely, probaby align at the bottom

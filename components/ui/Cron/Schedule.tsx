@@ -29,12 +29,6 @@ export default function ScheduleExplainer(props: Props): ReactElement {
                 <div>
                   <ClockIcon />
                 </div>
-                <div>Last run at: {state.prev}</div>
-              </div>
-              <div className="flex flex-row items-center space-x-2">
-                <div>
-                  <ClockIcon />
-                </div>
                 <div>Next run scheduled for: {state.next}</div>
               </div>
             </div>

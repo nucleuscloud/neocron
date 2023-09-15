@@ -1,7 +1,7 @@
 import { Unit } from "@/types";
 
 //the default unit definitions for each of the cron time selections
-export const units: ReadonlyArray<Unit> = Object.freeze([
+export const units: Unit[] = [
   {
     name: "minute",
     min: 0,
@@ -13,7 +13,7 @@ export const units: ReadonlyArray<Unit> = Object.freeze([
     max: 23,
   },
   {
-    name: "date",
+    name: "day",
     min: 1,
     max: 31,
   },
@@ -42,7 +42,7 @@ export const units: ReadonlyArray<Unit> = Object.freeze([
     max: 6,
     alt: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
   },
-]);
+];
 
 //turns the min and max in the option into an array with all of the values
 //between min and max inclusive of the min and max so we can render them in the multi-select
