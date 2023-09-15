@@ -12,23 +12,19 @@ const config: StorybookConfig = {
     "@storybook/addon-onboarding",
     "@storybook/addon-interactions",
   ],
-  webpackFinal: async (config, { configType }) => {
+  webpackFinal: async (baseConfig) => {
+    if (!baseConfig.resolve) {
+      baseConfig.resolve = {};
+    }
+
+    if (!baseConfig.resolve.alias) {
+      baseConfig.resolve.alias = {};
+    }
+
     // Define an alias for "@/"
-    // baseConfig?.resolve?.alias?['@/'] = path.resolve(__dirname, "../src") // Adjust this path if it points somewhere else
+    baseConfig.resolve.alias["@"] = path.resolve(__dirname, "../");
 
-    // return baseConfig;
-
-    let mod = config.resolve?.modules;
-    mod = [path.resolve(__dirname, ".."), "node_modules"];
-
-    let alias = config?.resolve?.alias;
-
-    alias = {
-      ...config?.resolve?.alias,
-      components: path.resolve(__dirname, "../"),
-    };
-
-    return config;
+    return baseConfig;
   },
   framework: {
     name: "@storybook/nextjs",
