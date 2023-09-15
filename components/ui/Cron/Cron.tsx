@@ -1,8 +1,7 @@
 "use client";
 import { ReactElement, useState } from "react";
 import CronExpression from "./CronExpression";
-import Info from "./Info";
-import Parts from "./Parts";
+import ScheduleSelectors from "./ScheduleSelectors";
 import { DateTime } from "luxon";
 import ScheduleExplainer from "./Schedule";
 import { arrayToString, stringToArray } from "@/lib/part";
@@ -17,7 +16,6 @@ export default function Cron(): ReactElement {
     return {
       ...state,
       next: schedule.next().toLocaleString(DateTime.DATETIME_FULL),
-      prev: schedule.prev().toLocaleString(DateTime.DATETIME_FULL),
     };
   };
 
@@ -28,7 +26,6 @@ export default function Cron(): ReactElement {
       expression,
       array,
       error: "",
-      prev: "",
       next: "",
     });
   };
@@ -62,11 +59,9 @@ export default function Cron(): ReactElement {
 
   return (
     <div className="flex flex-col space-y-6">
-      <div className="text-4xl text-gray-900 text-center">NeoCron</div>
-      <Info />
       <CronExpression state={state} setExpression={setExpression} />
+      <ScheduleSelectors setValue={setValue} />
       <ScheduleExplainer state={state} />
-      <Parts state={state} setValue={setValue} />
     </div>
   );
 }

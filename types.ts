@@ -2,7 +2,6 @@ export type CronState = {
   expression: string;
   array: number[][];
   error: string;
-  prev: string;
   next: string;
 };
 
@@ -25,3 +24,8 @@ export type Options = {
 };
 
 export type Error = "" | "invalid";
+
+export type ScheduleSelectorObject = {
+  name: string;
+  prefix: string;
+};

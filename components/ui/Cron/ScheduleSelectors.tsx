@@ -1,22 +1,20 @@
 import { ReactElement, useState } from "react";
-import Part from "./Part";
+import Selector from "./Selector";
 import { getUnits } from "@/lib/units";
-import { CronState, ValuePayload } from "@/types";
+import { CronState, ScheduleSelectorObject, ValuePayload } from "@/types";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 
 interface Props {
-  state: CronState;
   setValue: (val: ValuePayload) => void;
 }
 
-let workflowSelectors = [
+const scheduleSelector: ScheduleSelectorObject[] = [
   { name: "year", prefix: "on" },
   { name: "month", prefix: "on" },
   { name: "weekday", prefix: "on" },
@@ -25,14 +23,14 @@ let workflowSelectors = [
   { name: "minute", prefix: ":" },
 ];
 
-export default function Parts(props: Props): ReactElement {
-  const { setValue, state } = props;
-  const [start, setStart] = useState<string>("");
+export default function ScheduleSelectors(props: Props): ReactElement {
+  const { setValue } = props;
+  const [schedule, setSchedule] = useState<string>("year");
   const units = getUnits();
 
   const handleSelectors = () => {
-    const index = workflowSelectors.findIndex((ind) => ind.name == start);
-    return workflowSelectors.slice(index + 1).map((opt) => {
+    const index = scheduleSelector.findIndex((ind) => ind.name == schedule);
+    return scheduleSelector.slice(index + 1).map((opt) => {
       //add 1 to the index so only the selectors after the selected value are returned
       const unit = units.find((unit) => unit.name === opt.name);
 
@@ -41,13 +39,15 @@ export default function Parts(props: Props): ReactElement {
       }
 
       return (
-        <div key={opt.name} className="flex flex-row">
+        <div
+          key={opt.name}
+          className="flex flex-row items-center space-x-2 p-2"
+        >
           <div>{opt.prefix}</div>
           <div>
-            <Part
+            <Selector
               unit={unit}
               index={units.findIndex((unit) => unit.name === opt.name)}
-              state={state}
               setValue={setValue}
             />
           </div>
@@ -59,13 +59,13 @@ export default function Parts(props: Props): ReactElement {
   return (
     <div className="flex flex-row items-center w-full">
       <div className="flex flex-row space-x-2 items-center">
-        <div>I want to run this job every</div>
-        <Select onValueChange={(opt: string) => setStart(opt)}>
+        <div>Run this job every</div>
+        <Select onValueChange={(opt: string) => setSchedule(opt)}>
           <SelectTrigger>
-            <SelectValue placeholder="" />
+            <SelectValue placeholder={schedule} />
           </SelectTrigger>
           <SelectContent>
-            {workflowSelectors.map((opt) => (
+            {scheduleSelector.map((opt) => (
               <SelectItem value={opt.name} key={opt.name}>
                 {opt.name}
               </SelectItem>

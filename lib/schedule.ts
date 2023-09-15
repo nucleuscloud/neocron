@@ -66,17 +66,6 @@ export class Schedule {
     this.date = findDate(this.arr, this.date, false);
     return this.date;
   }
-
-  /**
-   * Returns the time the schedule would have last run at
-   *
-   * @return The time the schedule would have last run at
-   */
-  prev() {
-    this.pristine = false;
-    this.date = findDate(this.arr, this.date, true);
-    return this.date;
-  }
 }
 
 /**
