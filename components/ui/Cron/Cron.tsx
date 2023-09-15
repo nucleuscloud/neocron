@@ -89,3 +89,5 @@ export default function Cron(): ReactElement {
 //TODO: fix the way that the error gets set
 
 //TODO-stretch: update the selectors when someone manually enters in a cron expression
+
+//TODO: update responsiveness

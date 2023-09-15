@@ -52,10 +52,7 @@ export default function ScheduleSelectors(props: Props): ReactElement {
       }
 
       return (
-        <div
-          key={opt.name}
-          className="flex flex-col lg:flex-row items-center space-x-3"
-        >
+        <div key={opt.name} className="flex flex-row items-center space-x-3">
           <div className="pt-4 text-sm">{opt.prefix}</div>
           <div>
             <Selector
@@ -73,9 +70,9 @@ export default function ScheduleSelectors(props: Props): ReactElement {
   };
 
   return (
-    <div className="flex flex-row w-full items-end space-x-3">
+    <div className="flex flex-col lg:flex-row w-full items-start lg:items-end space-x-3">
       <div className="flex flex-row items-center space-x-3">
-        <div className="whitespace-nowrap text-sm">Run every</div>
+        <div className="whitespace-nowrap text-sm lg:p-0 pl-3">Run every</div>
         <Select onValueChange={(opt: string) => setSelectedSchedule(opt)}>
           <SelectTrigger>
             <SelectValue placeholder={selectedsSchedule} />
