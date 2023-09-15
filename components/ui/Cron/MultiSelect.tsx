@@ -82,11 +82,15 @@ export default function MultiSelect(props: Props) {
             aria-expanded={openCombobox}
             className="justify-between text-foreground items-center"
           >
-            {selectedValues?.sort().map((item) => (
-              <Badge variant="secondary" key={item} className="mr-1 ">
-                {formatOption(item)}
-              </Badge>
-            ))}
+            {selectedValues.length > 0 ? (
+              selectedValues?.sort().map((item) => (
+                <Badge variant="secondary" key={item} className="mr-1 ">
+                  {formatOption(item)}
+                </Badge>
+              ))
+            ) : (
+              <div>{options.name}</div>
+            )}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>

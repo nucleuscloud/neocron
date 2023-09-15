@@ -16,7 +16,7 @@ interface Props {
   setValue: (val: ValuePayload) => void;
 }
 
-let workflowOptions = [
+let workflowSelectors = [
   { name: "year", prefix: "on" },
   { name: "month", prefix: "on" },
   { name: "weekday", prefix: "on" },
@@ -30,9 +30,9 @@ export default function Parts(props: Props): ReactElement {
   const [start, setStart] = useState<string>("");
   const units = getUnits();
 
-  const handleWorkflow = () => {
-    const index = workflowOptions.findIndex((ind) => ind.name == start);
-    return workflowOptions.slice(index + 1).map((opt) => {
+  const handleSelectors = () => {
+    const index = workflowSelectors.findIndex((ind) => ind.name == start);
+    return workflowSelectors.slice(index + 1).map((opt) => {
       //add 1 to the index so only the selectors after the selected value are returned
       const unit = units.find((unit) => unit.name === opt.name);
 
@@ -65,28 +65,15 @@ export default function Parts(props: Props): ReactElement {
             <SelectValue placeholder="" />
           </SelectTrigger>
           <SelectContent>
-            <SelectGroup>
-              {workflowOptions.map((opt) => (
-                <SelectItem value={opt.name} key={opt.name}>
-                  {opt.name}
-                </SelectItem>
-              ))}
-            </SelectGroup>
+            {workflowSelectors.map((opt) => (
+              <SelectItem value={opt.name} key={opt.name}>
+                {opt.name}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
-      {handleWorkflow()}
-      {/* <div>
-        {getUnits().map((unit, index) => (
-          <Part
-            unit={unit}
-            key={unit.name}
-            index={index}
-            state={state}
-            setValue={setValue}
-          />
-        ))}
-      </div> */}
+      {handleSelectors()}
     </div>
   );
 }
