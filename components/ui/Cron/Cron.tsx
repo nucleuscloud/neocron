@@ -82,10 +82,9 @@ export default function Cron(): ReactElement {
   );
 }
 
-//TODO: fix the selected values showing on the chips when the schedule is reset
-// and the ranges for when multiple values are selected in teh same selector
+//TODO: fix the ranges for when multiple values are selected in teh same selector
 
-//TODO: fix the height of the commands to be taller, maybe even double column it for the longer values like minutes and dates
+//TODO: maybe even double column it for the longer values like minutes and dates
 
 //TODO: fix the way that the error gets set
 

@@ -52,8 +52,8 @@ export default function ScheduleSelectors(props: Props): ReactElement {
       }
 
       return (
-        <div key={opt.name} className="flex flex-row items-end space-x-2 p-2">
-          <div>{opt.prefix}</div>
+        <div key={opt.name} className="flex flex-row items-center space-x-3">
+          <div className="pt-4 text-sm">{opt.prefix}</div>
           <div>
             <Selector
               unit={unit}
@@ -70,8 +70,8 @@ export default function ScheduleSelectors(props: Props): ReactElement {
   };
 
   return (
-    <div className="flex flex-row  w-full space-x-2 items-start">
-      <div className="flex flex-row space-x-2 items-start">
+    <div className="flex flex-row w-full items-end space-x-3">
+      <div className="flex flex-row items-center space-x-3">
         <div className="whitespace-nowrap text-sm">Run every</div>
         <Select onValueChange={(opt: string) => setSelectedSchedule(opt)}>
           <SelectTrigger>
@@ -87,7 +87,11 @@ export default function ScheduleSelectors(props: Props): ReactElement {
         </Select>
       </div>
       {handleSelectors()}
-      <Button onClick={resetSchedule}>Reset</Button>
+      <div>
+        <Button onClick={resetSchedule} variant="destructive">
+          Reset
+        </Button>
+      </div>
     </div>
   );
 }

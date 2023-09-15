@@ -103,7 +103,9 @@ export default function MultiSelect(props: Props) {
                       </Badge>
                     ))
                 ) : (
-                  <div className="items-start">{options.name}</div>
+                  <div className="text-center font-light text-gray-300 text-sm">
+                    {options.name}(s)
+                  </div>
                 )}
               </div>
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -112,7 +114,7 @@ export default function MultiSelect(props: Props) {
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command loop>
-            <CommandGroup className="max-h-[145px] overflow-auto">
+            <CommandGroup className="max-h-[400px] overflow-auto">
               {spreadOption(options).map((option) => {
                 const isActive = selectedValues?.includes(option);
                 return (
