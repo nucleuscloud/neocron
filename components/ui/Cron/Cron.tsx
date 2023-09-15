@@ -73,7 +73,7 @@ export default function Cron(): ReactElement {
       <CronExpression state={state} setExpression={setExpression} />
       <div className="flex items-center space-x-3">
         <div className="flex-1 bg-gray-300 h-[1px]"></div>
-        <span className="text-gray-600 bg-white px-3">or</span>
+        <span className="text-gray-600 text-sm bg-white px-3">or</span>
         <div className="flex-1 bg-gray-300 h-[1px]"></div>
       </div>
       <ScheduleSelectors
