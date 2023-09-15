@@ -1,6 +1,6 @@
 "use client";
 import { Check, ChevronsUpDown, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,22 +15,30 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CronState, Unit } from "@/types";
+import { Unit } from "@/types";
 import { spreadOption } from "@/lib/units";
 
 interface Props {
   options: Unit;
   onChange: (opt: string[]) => void;
-  state: CronState;
-  index: number;
+  resetSelectedValues: boolean;
+  setResetSelectedValues: (val: boolean) => void;
 }
 
 export default function MultiSelect(props: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { options, state, onChange, index } = props;
+  const { options, onChange, resetSelectedValues, setResetSelectedValues } =
+    props;
   const [openCombobox, setOpenCombobox] = useState(false);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (resetSelectedValues) {
+      setSelectedValues([]);
+      setResetSelectedValues(false);
+    }
+  }, [resetSelectedValues, setResetSelectedValues]);
 
   const toggleOptions = (option: string) => {
     setSelectedValues((currentOption) => {
@@ -38,7 +46,7 @@ export default function MultiSelect(props: Props) {
         ? [...currentOption, option]
         : currentOption.filter((curr) => curr !== option);
 
-      props.onChange(updatedOptions); // Notify parent about the change.
+      onChange(updatedOptions); // Notify parent about the change.
 
       return updatedOptions;
     });

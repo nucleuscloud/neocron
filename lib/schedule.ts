@@ -1,5 +1,6 @@
 import { DateTime } from "luxon";
 import { assertValidArray } from "./utils";
+import { stringToArray } from "./part";
 
 export class Schedule {
   readonly arr: number[][];
