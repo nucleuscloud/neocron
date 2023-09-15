@@ -17,6 +17,7 @@ interface Props {
 }
 
 let workflowOptions = [
+  { name: "year", prefix: "on" },
   { name: "month", prefix: "on" },
   { name: "weekday", prefix: "on" },
   { name: "day", prefix: "and" },
