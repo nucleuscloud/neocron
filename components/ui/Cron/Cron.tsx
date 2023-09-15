@@ -7,6 +7,7 @@ import ScheduleExplainer from "./Schedule";
 import { arrayToString, stringToArray } from "@/lib/part";
 import { Schedule, getSchedule } from "@/lib/schedule";
 import { CronState, ValuePayload } from "@/types";
+import { Separator } from "@radix-ui/react-select";
 
 export default function Cron(): ReactElement {
   const updateSchedule = (state: CronState): CronState => {
@@ -70,6 +71,11 @@ export default function Cron(): ReactElement {
   return (
     <div className="flex flex-col space-y-6">
       <CronExpression state={state} setExpression={setExpression} />
+      <div className="flex items-center space-x-3">
+        <div className="flex-1 bg-gray-300 h-[1px]"></div>
+        <span className="text-gray-600 bg-white px-3">or</span>
+        <div className="flex-1 bg-gray-300 h-[1px]"></div>
+      </div>
       <ScheduleSelectors
         setValue={setValue}
         resetSchedule={resetSchedule}
@@ -84,7 +90,7 @@ export default function Cron(): ReactElement {
 
 //TODO: fix the ranges for when multiple values are selected in teh same selector
 
-//TODO: fix the way that the error gets set
+//TODO: fix the way that the errors gets set
 
 //TODO-stretch: update the selectors when someone manually enters in a cron expression
 
