@@ -84,8 +84,6 @@ export default function Cron(): ReactElement {
 
 //TODO: fix the ranges for when multiple values are selected in teh same selector
 
-//TODO: maybe even double column it for the longer values like minutes and dates
-
 //TODO: fix the way that the error gets set
 
 //TODO-stretch: update the selectors when someone manually enters in a cron expression
