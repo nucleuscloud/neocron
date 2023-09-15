@@ -13,8 +13,8 @@ export default function ScheduleExplainer(props: Props): ReactElement {
     return (
       <div>
         <Alert variant="destructive">
-          <ExclamationTriangleIcon className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
+          <ExclamationTriangleIcon />
+
           <AlertDescription>{state.error}</AlertDescription>
         </Alert>
       </div>

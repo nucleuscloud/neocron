@@ -7,6 +7,7 @@ import ScheduleExplainer from "./Schedule";
 import { arrayToString, stringToArray } from "@/lib/part";
 import { Schedule, getSchedule } from "@/lib/schedule";
 import { CronState, ValuePayload } from "@/types";
+import { Separator } from "@radix-ui/react-select";
 
 export default function Cron(): ReactElement {
   const updateSchedule = (state: CronState): CronState => {
@@ -70,6 +71,11 @@ export default function Cron(): ReactElement {
   return (
     <div className="flex flex-col space-y-6">
       <CronExpression state={state} setExpression={setExpression} />
+      <div className="flex items-center space-x-3">
+        <div className="flex-1 bg-gray-300 h-[1px]"></div>
+        <span className="text-gray-600 text-sm bg-white px-3">or</span>
+        <div className="flex-1 bg-gray-300 h-[1px]"></div>
+      </div>
       <ScheduleSelectors
         setValue={setValue}
         resetSchedule={resetSchedule}
@@ -82,15 +88,10 @@ export default function Cron(): ReactElement {
   );
 }
 
-//TODO: fix the selected values showing on the chips when the schedule is reset
-// and the ranges for when multiple values are selected in teh same selector
-
-//TODO: fix the height of the commands to be taller, maybe even double column it for the longer values like minutes and dates
-
-//TODO: fix the way that the error gets set
-
-//TODO: when clicking on the select everythign shifts right, fix that
-
-//TODO: align everything so that it looks nicely, probaby align at the bottom
+//TODO: fix the ranges for when multiple values are selected in teh same selector
 
 //TODO-stretch: update the selectors when someone manually enters in a cron expression
+
+//TODO: update responsiveness
+
+//TODO: fix bug where if you select a value from the beignning and then unselect it it throws an erorr saying that it can't be empty but it should just go back to default all

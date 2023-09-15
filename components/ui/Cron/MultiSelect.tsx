@@ -72,9 +72,9 @@ export default function MultiSelect(props: Props) {
     if (options?.alt) {
       if (options.name == "month") {
         //month has a min of 1 instead of 0 so have to subtract 1 to get the index to work
-        return option + " - " + options?.alt[Number(option) - 1];
+        return option + "-" + options?.alt[Number(option) - 1];
       } else {
-        return option + " - " + options?.alt[Number(option)];
+        return option + "-" + options?.alt[Number(option)];
       }
     } else {
       return option;
@@ -90,10 +90,10 @@ export default function MultiSelect(props: Props) {
             variant="outline"
             role="combobox"
             aria-expanded={openCombobox}
-            className="flex flex-wrap max-w-sm text-foreground "
+            className="flex flex-wrap items-start max-w-sm h-auto text-foreground"
           >
             <div className="flex flex-row">
-              <div className=" flex flex-wrap ">
+              <div className="flex flex-wrap items-start">
                 {selectedValues.length > 0 ? (
                   selectedValues
                     ?.sort((a, b) => Number(a) - Number(b))
@@ -103,16 +103,18 @@ export default function MultiSelect(props: Props) {
                       </Badge>
                     ))
                 ) : (
-                  <div className="items-start">{options.name}</div>
+                  <div className="text-center font-light text-gray-300 text-sm">
+                    {options.name}(s)
+                  </div>
                 )}
               </div>
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="w-[400px] p-0">
           <Command loop>
-            <CommandGroup className="max-h-[145px] overflow-auto">
+            <div className="max-h-[300px] overflow-auto grid grid-cols-5 p-2">
               {spreadOption(options).map((option) => {
                 const isActive = selectedValues?.includes(option);
                 return (
@@ -120,18 +122,17 @@ export default function MultiSelect(props: Props) {
                     key={option}
                     value={option}
                     onSelect={() => toggleOptions(option)}
+                    className={cn(
+                      "flex-1",
+                      isActive &&
+                        "rounded-sm bg-green-200 aria-selected:bg-green-200"
+                    )}
                   >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        isActive ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                    <div className="flex-1">{formatOption(option)}</div>
+                    <div>{formatOption(option)}</div>
                   </CommandItem>
                 );
               })}
-            </CommandGroup>
+            </div>
             <CommandSeparator alwaysRender />
             <CommandGroup>
               <CommandItem
