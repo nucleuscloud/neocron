@@ -12,7 +12,7 @@ export type ValuePayload = {
 };
 
 export type Unit = {
-  name: "minute" | "hour" | "date" | "month" | "weekday";
+  name: "minute" | "hour" | "day" | "month" | "weekday";
   min: number;
   max: number;
   alt?: ReadonlyArray<string>;

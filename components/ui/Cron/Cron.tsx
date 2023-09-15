@@ -1,5 +1,5 @@
-" use client";
-import { ReactElement, useEffect, useState } from "react";
+"use client";
+import { ReactElement, useState } from "react";
 import CronExpression from "./CronExpression";
 import Info from "./Info";
 import Parts from "./Parts";
@@ -8,7 +8,6 @@ import ScheduleExplainer from "./Schedule";
 import { arrayToString, stringToArray } from "@/lib/part";
 import { Schedule, getSchedule } from "@/lib/schedule";
 import { CronState, Error, ValuePayload } from "@/types";
-import MultiSelect from "./MultiSelect";
 
 //TODO: fix the way that the error gets set
 
