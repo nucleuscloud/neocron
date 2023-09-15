@@ -52,7 +52,10 @@ export default function ScheduleSelectors(props: Props): ReactElement {
       }
 
       return (
-        <div key={opt.name} className="flex flex-row items-center space-x-3">
+        <div
+          key={opt.name}
+          className="flex flex-col lg:flex-row items-center space-x-3"
+        >
           <div className="pt-4 text-sm">{opt.prefix}</div>
           <div>
             <Selector

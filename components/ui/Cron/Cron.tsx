@@ -88,8 +88,4 @@ export default function Cron(): ReactElement {
 
 //TODO: fix the way that the error gets set
 
-//TODO: when clicking on the select everythign shifts right, fix that
-
-//TODO: align everything so that it looks nicely, probaby align at the bottom
-
 //TODO-stretch: update the selectors when someone manually enters in a cron expression
