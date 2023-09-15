@@ -27,7 +27,7 @@ interface Props {
 
 export default function MultiSelect(props: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { options, state, index } = props;
+  const { options, state, onChange, index } = props;
   const [openCombobox, setOpenCombobox] = useState(false);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
@@ -43,8 +43,6 @@ export default function MultiSelect(props: Props) {
       return updatedOptions;
     });
 
-    console.log("state", state.expression);
-
     inputRef?.current?.focus();
   };
 
@@ -53,11 +51,11 @@ export default function MultiSelect(props: Props) {
       setSelectAll(true);
       const allOptions = spreadOption(options);
       setSelectedValues(allOptions);
-      props.onChange(allOptions);
+      onChange(allOptions);
     } else {
       setSelectAll(false);
       setSelectedValues([]);
-      props.onChange([]); // Notify parent about the change.
+      onChange([]); // Notify parent about the change.
     }
   };
 
@@ -74,11 +72,6 @@ export default function MultiSelect(props: Props) {
       return option;
     }
   };
-
-  //TODO: fix the selected values showing on the chips when the schedule is reset
-  // and the ranges for when multiple values are selected
-
-  //TODO: fix spacing on the overflow so that it overflows nicely
 
   return (
     <div className="flex flex-col items-center">

@@ -62,6 +62,7 @@ export default function ScheduleSelectors(props: Props): ReactElement {
   return (
     <div className="flex flex-row  w-full space-x-2 items-start">
       <div className="flex flex-row space-x-2 items-start">
+        <div>Run</div>
         <Select onValueChange={(opt: string) => setSelectedSchedule(opt)}>
           <SelectTrigger>
             <SelectValue placeholder={selectedsSchedule} />
