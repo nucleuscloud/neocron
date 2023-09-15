@@ -90,10 +90,10 @@ export default function MultiSelect(props: Props) {
             variant="outline"
             role="combobox"
             aria-expanded={openCombobox}
-            className="flex flex-wrap max-w-sm text-foreground "
+            className="flex flex-wrap items-start max-w-sm h-auto text-foreground"
           >
             <div className="flex flex-row">
-              <div className=" flex flex-wrap ">
+              <div className="flex flex-wrap items-start">
                 {selectedValues.length > 0 ? (
                   selectedValues
                     ?.sort((a, b) => Number(a) - Number(b))
