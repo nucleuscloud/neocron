@@ -90,8 +90,6 @@ export default function Cron(): ReactElement {
 
 //TODO: fix the ranges for when multiple values are selected in teh same selector
 
-//TODO: fix the way that the errors gets set
-
 //TODO-stretch: update the selectors when someone manually enters in a cron expression
 
 //TODO: update responsiveness
