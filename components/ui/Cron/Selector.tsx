@@ -6,19 +6,20 @@ interface Props {
   index: number;
   unit: Unit;
   setValue: (val: ValuePayload) => void;
+  state: CronState;
 }
 
 export default function Selector(props: Props): ReactElement {
-  const { unit, index, setValue } = props;
+  const { unit, index, setValue, state } = props;
 
   return (
-    <div className="flex flex-col lg:flex-row items-center">
-      <MultiSelect
-        options={unit}
-        onChange={(e) => {
-          setValue({ index, values: e.map(Number) });
-        }}
-      />
-    </div>
+    <MultiSelect
+      options={unit}
+      state={state}
+      onChange={(e) => {
+        setValue({ index, values: e.map(Number) });
+      }}
+      index={index}
+    />
   );
 }

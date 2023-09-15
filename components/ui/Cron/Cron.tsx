@@ -6,21 +6,22 @@ import { DateTime } from "luxon";
 import ScheduleExplainer from "./Schedule";
 import { arrayToString, stringToArray } from "@/lib/part";
 import { Schedule, getSchedule } from "@/lib/schedule";
-import { CronState, Error, ValuePayload } from "@/types";
+import { CronState, ValuePayload } from "@/types";
 
 //TODO: fix the way that the error gets set
 
 export default function Cron(): ReactElement {
   const updateSchedule = (state: CronState): CronState => {
-    const schedule: Schedule = getSchedule(state.array);
+    const newSchedule = getSchedule(state.array);
+    setSchedule(newSchedule);
     return {
       ...state,
-      next: schedule.next().toLocaleString(DateTime.DATETIME_FULL),
+      next: newSchedule.next().toLocaleString(DateTime.DATETIME_FULL),
     };
   };
 
   const getInitialState = (): CronState => {
-    const expression = "*/15 0-11 1,10,20 * *";
+    const expression = "* * * * *";
     const array = stringToArray(expression);
     return updateSchedule({
       expression,
@@ -29,6 +30,11 @@ export default function Cron(): ReactElement {
       next: "",
     });
   };
+
+  const [schedule, setSchedule] = useState<Schedule>(
+    new Schedule(stringToArray("* * * * *"))
+  );
+  const [state, setState] = useState<CronState>(getInitialState);
 
   const setExpression = (expression: string) => {
     let newState: CronState = { ...state, expression, error: "" };
@@ -55,12 +61,20 @@ export default function Cron(): ReactElement {
     setState(newState);
   };
 
-  const [state, setState] = useState<CronState>(getInitialState);
+  const resetSchedule = () => {
+    schedule.reset;
+    setState(getInitialState());
+    console.log("state in cr", state.array);
+  };
 
   return (
     <div className="flex flex-col space-y-6">
       <CronExpression state={state} setExpression={setExpression} />
-      <ScheduleSelectors setValue={setValue} />
+      <ScheduleSelectors
+        setValue={setValue}
+        resetSchedule={resetSchedule}
+        state={state}
+      />
       <ScheduleExplainer state={state} />
     </div>
   );

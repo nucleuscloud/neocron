@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandSeparator,
 } from "@/components/ui/command";
@@ -16,19 +15,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Unit } from "@/types";
+import { CronState, Unit } from "@/types";
 import { spreadOption } from "@/lib/units";
 
 interface Props {
   options: Unit;
   onChange: (opt: string[]) => void;
+  state: CronState;
+  index: number;
 }
 
 export default function MultiSelect(props: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { options } = props;
+  const { options, state, index } = props;
   const [openCombobox, setOpenCombobox] = useState(false);
-  const [inputValue, setInputValue] = useState<string>("");
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
 
@@ -36,12 +36,15 @@ export default function MultiSelect(props: Props) {
     setSelectedValues((currentOption) => {
       const updatedOptions = !currentOption.includes(option)
         ? [...currentOption, option]
-        : currentOption.filter((l) => l !== option);
+        : currentOption.filter((curr) => curr !== option);
 
       props.onChange(updatedOptions); // Notify parent about the change.
 
       return updatedOptions;
     });
+
+    console.log("state", state.expression);
+
     inputRef?.current?.focus();
   };
 
@@ -72,36 +75,42 @@ export default function MultiSelect(props: Props) {
     }
   };
 
+  //TODO: fix the selected values showing on the chips when the schedule is reset
+  // and the ranges for when multiple values are selected
+
+  //TODO: fix spacing on the overflow so that it overflows nicely
+
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex flex-col items-center">
+      <div className="text-xs text-center">{options.name}(s)</div>
       <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={openCombobox}
-            className="justify-between text-foreground items-center"
+            className="flex flex-wrap max-w-sm text-foreground "
           >
-            {selectedValues.length > 0 ? (
-              selectedValues?.sort().map((item) => (
-                <Badge variant="secondary" key={item} className="mr-1 ">
-                  {formatOption(item)}
-                </Badge>
-              ))
-            ) : (
-              <div>{options.name}</div>
-            )}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <div className="flex flex-row">
+              <div className=" flex flex-wrap ">
+                {selectedValues.length > 0 ? (
+                  selectedValues
+                    ?.sort((a, b) => Number(a) - Number(b))
+                    .map((item) => (
+                      <Badge variant="secondary" key={item} className="mr-1">
+                        {formatOption(item)}
+                      </Badge>
+                    ))
+                ) : (
+                  <div className="items-start">{options.name}</div>
+                )}
+              </div>
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </div>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command loop>
-            <CommandInput
-              ref={inputRef}
-              placeholder="Search values..."
-              value={inputValue}
-              onValueChange={setInputValue}
-            />
             <CommandGroup className="max-h-[145px] overflow-auto">
               {spreadOption(options).map((option) => {
                 const isActive = selectedValues?.includes(option);
@@ -125,7 +134,6 @@ export default function MultiSelect(props: Props) {
             <CommandSeparator alwaysRender />
             <CommandGroup>
               <CommandItem
-                value={inputValue}
                 className="text-xs text-muted-foreground"
                 onSelect={handleSelectAll}
               >

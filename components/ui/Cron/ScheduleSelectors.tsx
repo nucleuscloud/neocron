@@ -9,9 +9,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "../button";
 
 interface Props {
   setValue: (val: ValuePayload) => void;
+  resetSchedule: () => void;
+  state: CronState;
 }
 
 const scheduleSelector: ScheduleSelectorObject[] = [
@@ -24,12 +27,14 @@ const scheduleSelector: ScheduleSelectorObject[] = [
 ];
 
 export default function ScheduleSelectors(props: Props): ReactElement {
-  const { setValue } = props;
-  const [schedule, setSchedule] = useState<string>("year");
+  const { setValue, resetSchedule, state } = props;
+  const [selectedsSchedule, setSelectedSchedule] = useState<string>("year");
   const units = getUnits();
 
   const handleSelectors = () => {
-    const index = scheduleSelector.findIndex((ind) => ind.name == schedule);
+    const index = scheduleSelector.findIndex(
+      (ind) => ind.name == selectedsSchedule
+    );
     return scheduleSelector.slice(index + 1).map((opt) => {
       //add 1 to the index so only the selectors after the selected value are returned
       const unit = units.find((unit) => unit.name === opt.name);
@@ -39,16 +44,14 @@ export default function ScheduleSelectors(props: Props): ReactElement {
       }
 
       return (
-        <div
-          key={opt.name}
-          className="flex flex-row items-center space-x-2 p-2"
-        >
+        <div key={opt.name} className="flex flex-row items-end space-x-2 p-2">
           <div>{opt.prefix}</div>
           <div>
             <Selector
               unit={unit}
               index={units.findIndex((unit) => unit.name === opt.name)}
               setValue={setValue}
+              state={state}
             />
           </div>
         </div>
@@ -57,12 +60,11 @@ export default function ScheduleSelectors(props: Props): ReactElement {
   };
 
   return (
-    <div className="flex flex-row items-center w-full">
-      <div className="flex flex-row space-x-2 items-center">
-        <div>Run this job every</div>
-        <Select onValueChange={(opt: string) => setSchedule(opt)}>
+    <div className="flex flex-row  w-full space-x-2 items-start">
+      <div className="flex flex-row space-x-2 items-start">
+        <Select onValueChange={(opt: string) => setSelectedSchedule(opt)}>
           <SelectTrigger>
-            <SelectValue placeholder={schedule} />
+            <SelectValue placeholder={selectedsSchedule} />
           </SelectTrigger>
           <SelectContent>
             {scheduleSelector.map((opt) => (
@@ -74,6 +76,7 @@ export default function ScheduleSelectors(props: Props): ReactElement {
         </Select>
       </div>
       {handleSelectors()}
+      <Button onClick={resetSchedule}>Reset</Button>
     </div>
   );
 }
