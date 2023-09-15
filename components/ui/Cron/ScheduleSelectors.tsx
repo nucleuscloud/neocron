@@ -15,6 +15,8 @@ interface Props {
   setValue: (val: ValuePayload) => void;
   resetSchedule: () => void;
   state: CronState;
+  resetSelectedValues: boolean;
+  setResetSelectedValues: (val: boolean) => void;
 }
 
 const scheduleSelector: ScheduleSelectorObject[] = [
@@ -27,7 +29,13 @@ const scheduleSelector: ScheduleSelectorObject[] = [
 ];
 
 export default function ScheduleSelectors(props: Props): ReactElement {
-  const { setValue, resetSchedule, state } = props;
+  const {
+    setValue,
+    resetSchedule,
+    state,
+    resetSelectedValues,
+    setResetSelectedValues,
+  } = props;
   const [selectedsSchedule, setSelectedSchedule] = useState<string>("year");
   const units = getUnits();
 
@@ -52,6 +60,8 @@ export default function ScheduleSelectors(props: Props): ReactElement {
               index={units.findIndex((unit) => unit.name === opt.name)}
               setValue={setValue}
               state={state}
+              resetSelectedValues={resetSelectedValues}
+              setResetSelectedValues={setResetSelectedValues}
             />
           </div>
         </div>
@@ -62,7 +72,7 @@ export default function ScheduleSelectors(props: Props): ReactElement {
   return (
     <div className="flex flex-row  w-full space-x-2 items-start">
       <div className="flex flex-row space-x-2 items-start">
-        <div>Run</div>
+        <div className="whitespace-nowrap text-sm">Run every</div>
         <Select onValueChange={(opt: string) => setSelectedSchedule(opt)}>
           <SelectTrigger>
             <SelectValue placeholder={selectedsSchedule} />

@@ -33,6 +33,8 @@ export default function Cron(): ReactElement {
     new Schedule(stringToArray("* * * * *"))
   );
   const [state, setState] = useState<CronState>(getInitialState);
+  const [resetSelectedValues, setResetSelectedValues] =
+    useState<boolean>(false);
 
   const setExpression = (expression: string) => {
     let newState: CronState = { ...state, expression, error: "" };
@@ -62,7 +64,7 @@ export default function Cron(): ReactElement {
   const resetSchedule = () => {
     schedule.reset;
     setState(getInitialState());
-    console.log("state in cr", state.array);
+    setResetSelectedValues(true);
   };
 
   return (
@@ -72,6 +74,8 @@ export default function Cron(): ReactElement {
         setValue={setValue}
         resetSchedule={resetSchedule}
         state={state}
+        resetSelectedValues={resetSelectedValues}
+        setResetSelectedValues={setResetSelectedValues}
       />
       <ScheduleExplainer state={state} />
     </div>
@@ -88,3 +92,5 @@ export default function Cron(): ReactElement {
 //TODO: when clicking on the select everythign shifts right, fix that
 
 //TODO: align everything so that it looks nicely, probaby align at the bottom
+
+//TODO-stretch: update the selectors when someone manually enters in a cron expression
