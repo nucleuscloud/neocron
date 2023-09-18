@@ -1,5 +1,5 @@
 import { ClockIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import { CronState } from '../types';
 import { Alert, AlertDescription } from './ui/alert';
 

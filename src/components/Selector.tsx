@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import { CronState, Unit, ValuePayload } from '../types';
 import MultiSelect from './MultiSelect';
 
