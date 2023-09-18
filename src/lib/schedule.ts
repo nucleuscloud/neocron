@@ -1,6 +1,6 @@
-import { DateTime } from "luxon";
-import { assertValidArray } from "./utils";
-import { stringToArray } from "./part";
+import { DateTime } from 'luxon';
+import { assertValidArray } from './utils';
+import { stringToArray } from './part';
 
 export class Schedule {
   readonly arr: number[][];
@@ -20,19 +20,19 @@ export class Schedule {
     let date: DateTime;
     if (now === undefined) {
       date = DateTime.now();
-    } else if (typeof now === "string") {
+    } else if (typeof now === 'string') {
       date = DateTime.fromISO(now);
     } else {
       date = DateTime.fromJSDate(now);
     }
     if (!date.isValid) {
-      throw new Error("Invalid reference date provided");
+      throw new Error('Invalid reference date provided');
     }
     if (timezone) {
       date = date.setZone(timezone);
     }
     if (!date.isValid) {
-      throw new Error("Invalid timezone provided");
+      throw new Error('Invalid timezone provided');
     }
     if (date.second > 0) {
       // plus a minute to the date to prevent returning dates in the past
@@ -78,8 +78,8 @@ export class Schedule {
  * @return The date the schedule would have executed at
  */
 const findDate = (arr: number[][], date: DateTime, reverse: boolean) => {
-  const operation = reverse ? "minus" : "plus";
-  const reset = reverse ? "endOf" : "startOf";
+  const operation = reverse ? 'minus' : 'plus';
+  const reset = reverse ? 'endOf' : 'startOf';
   if (reverse) {
     date = date.minus({ minute: 1 }); // Ensure prev and next cannot be same time
   }
@@ -101,7 +101,7 @@ const findDate = (arr: number[][], date: DateTime, reverse: boolean) => {
     }
   }
   if (!retry) {
-    throw new Error("Unable to find execution time for schedule");
+    throw new Error('Unable to find execution time for schedule');
   }
   return date.set({ second: 0, millisecond: 0 });
 };
@@ -118,11 +118,11 @@ const findDate = (arr: number[][], date: DateTime, reverse: boolean) => {
 const shiftMonth = (
   arr: number[][],
   date: DateTime,
-  operation: "plus" | "minus",
-  reset: "startOf" | "endOf"
+  operation: 'plus' | 'minus',
+  reset: 'startOf' | 'endOf'
 ) => {
   while (arr[3].indexOf(date.month) === -1) {
-    date = date[operation]({ months: 1 })[reset]("month");
+    date = date[operation]({ months: 1 })[reset]('month');
   }
   return date;
 };
@@ -140,8 +140,8 @@ const shiftMonth = (
 const shiftDay = (
   arr: number[][],
   date: DateTime,
-  operation: "plus" | "minus",
-  reset: "startOf" | "endOf"
+  operation: 'plus' | 'minus',
+  reset: 'startOf' | 'endOf'
 ): [DateTime, boolean] => {
   const currentMonth = date.month;
   while (
@@ -149,7 +149,7 @@ const shiftDay = (
     // luxon uses 1-7 for weekdays, but we use 0-6
     arr[4].indexOf(date.weekday === 7 ? 0 : date.weekday) === -1
   ) {
-    date = date[operation]({ days: 1 })[reset]("day");
+    date = date[operation]({ days: 1 })[reset]('day');
     if (currentMonth !== date.month) {
       return [date, true];
     }
@@ -170,12 +170,12 @@ const shiftDay = (
 const shiftHour = (
   arr: number[][],
   date: DateTime,
-  operation: "plus" | "minus",
-  reset: "startOf" | "endOf"
+  operation: 'plus' | 'minus',
+  reset: 'startOf' | 'endOf'
 ): [DateTime, boolean] => {
   const currentDay = date.day;
   while (arr[1].indexOf(date.hour) === -1) {
-    date = date[operation]({ hours: 1 })[reset]("hour");
+    date = date[operation]({ hours: 1 })[reset]('hour');
     if (currentDay !== date.day) {
       return [date, true];
     }
@@ -196,12 +196,12 @@ const shiftHour = (
 const shiftMinute = (
   arr: number[][],
   date: DateTime,
-  operation: "plus" | "minus",
-  reset: "startOf" | "endOf"
+  operation: 'plus' | 'minus',
+  reset: 'startOf' | 'endOf'
 ): [DateTime, boolean] => {
   const currentHour = date.hour;
   while (arr[0].indexOf(date.minute) === -1) {
-    date = date[operation]({ minutes: 1 })[reset]("minute");
+    date = date[operation]({ minutes: 1 })[reset]('minute');
     if (currentHour !== date.hour) {
       return [date, true];
     }

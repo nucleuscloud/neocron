@@ -1,12 +1,12 @@
-"use client";
-import { ReactElement, useState } from "react";
-import CronExpression from "./components/CronExpression";
-import ScheduleSelectors from "./components/ScheduleSelectors";
-import { DateTime } from "luxon";
-import ScheduleExplainer from "./components/Schedule";
-import { arrayToString, stringToArray } from "@/src/lib/part";
-import { Schedule, getSchedule } from "@/src/lib/schedule";
-import { CronState, ValuePayload } from "@/src/types";
+'use client';
+import { ReactElement, useState } from 'react';
+import CronExpression from './components/CronExpression';
+import ScheduleSelectors from './components/ScheduleSelectors';
+import { DateTime } from 'luxon';
+import ScheduleExplainer from './components/Schedule';
+import { arrayToString, stringToArray } from '@/src/lib/part';
+import { Schedule, getSchedule } from '@/src/lib/schedule';
+import { CronState, ValuePayload } from '@/src/types';
 
 export default function NeoCron(): ReactElement {
   const updateSchedule = (state: CronState): CronState => {
@@ -19,25 +19,25 @@ export default function NeoCron(): ReactElement {
   };
 
   const getInitialState = (): CronState => {
-    const expression = "* * * * *";
+    const expression = '* * * * *';
     const array = stringToArray(expression);
     return updateSchedule({
       expression,
       array,
-      error: "",
-      next: "",
+      error: '',
+      next: '',
     });
   };
 
   const [schedule, setSchedule] = useState<Schedule>(
-    new Schedule(stringToArray("* * * * *"))
+    new Schedule(stringToArray('* * * * *'))
   );
   const [state, setState] = useState<CronState>(getInitialState);
   const [resetSelectedValues, setResetSelectedValues] =
     useState<boolean>(false);
 
   const setExpression = (expression: string) => {
-    let newState: CronState = { ...state, expression, error: "" };
+    let newState: CronState = { ...state, expression, error: '' };
     try {
       newState.array = stringToArray(expression);
       newState = updateSchedule(newState);
@@ -51,7 +51,7 @@ export default function NeoCron(): ReactElement {
     const newArray = [...state.array];
     newArray[payload.index] = payload.values;
 
-    let newState: CronState = { ...state, array: newArray, error: "" };
+    let newState: CronState = { ...state, array: newArray, error: '' };
     try {
       newState.expression = arrayToString(newState.array);
       newState = updateSchedule(newState);

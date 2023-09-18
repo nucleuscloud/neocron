@@ -1,6 +1,6 @@
-import { ReactElement } from "react";
-import { CronState, Unit, ValuePayload } from "@/src/types";
-import MultiSelect from "./MultiSelect";
+import { ReactElement } from 'react';
+import { CronState, Unit, ValuePayload } from '@/src/types';
+import MultiSelect from './MultiSelect';
 
 interface Props {
   index: number;

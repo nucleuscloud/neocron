@@ -1,22 +1,22 @@
-"use client";
-import { Check, ChevronsUpDown, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { cn } from "@/src/lib/utils";
-import { Badge } from "@/src/components/ui/badge";
-import { Button } from "@/src/components/ui/button";
+'use client';
+import { Check, ChevronsUpDown, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { cn } from '@/src/lib/utils';
+import { Badge } from '@/src/components/ui/badge';
+import { Button } from '@/src/components/ui/button';
 import {
   Command,
   CommandGroup,
   CommandItem,
   CommandSeparator,
-} from "@/src/components/ui/command";
+} from '@/src/components/ui/command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/src/components/ui/popover";
-import { Unit } from "@/src/types";
-import { spreadOption } from "@/src/lib/units";
+} from '@/src/components/ui/popover';
+import { Unit } from '@/src/types';
+import { spreadOption } from '@/src/lib/units';
 
 interface Props {
   options: Unit;
@@ -70,11 +70,11 @@ export default function MultiSelect(props: Props) {
   //formats option with alt text to include that
   const formatOption = (option: string) => {
     if (options?.alt) {
-      if (options.name == "month") {
+      if (options.name == 'month') {
         //month has a min of 1 instead of 0 so have to subtract 1 to get the index to work
-        return option + "-" + options?.alt[Number(option) - 1];
+        return option + '-' + options?.alt[Number(option) - 1];
       } else {
-        return option + "-" + options?.alt[Number(option)];
+        return option + '-' + options?.alt[Number(option)];
       }
     } else {
       return option;
@@ -123,9 +123,9 @@ export default function MultiSelect(props: Props) {
                     value={option}
                     onSelect={() => toggleOptions(option)}
                     className={cn(
-                      "flex-1",
+                      'flex-1',
                       isActive &&
-                        "rounded-sm bg-green-200 aria-selected:bg-green-200"
+                        'rounded-sm bg-green-200 aria-selected:bg-green-200'
                     )}
                   >
                     <div>{formatOption(option)}</div>
@@ -139,7 +139,7 @@ export default function MultiSelect(props: Props) {
                 className="text-xs text-muted-foreground"
                 onSelect={handleSelectAll}
               >
-                {selectAll ? "Unselect All" : "Select All"}
+                {selectAll ? 'Unselect All' : 'Select All'}
               </CommandItem>
             </CommandGroup>
           </Command>

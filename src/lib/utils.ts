@@ -1,7 +1,7 @@
-import { Options } from "@/src/types";
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-import { units } from "./units";
+import { Options } from '@/src/types';
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import { units } from './units';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -15,7 +15,7 @@ export const defaultOptions: Options = {
 
 //parses a value as an interger or returns a nuber
 export const parseNumber = (value: unknown) => {
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     const str: string = value.trim();
     if (/^\d+$/.test(str)) {
       const num = Number(str);
@@ -23,7 +23,7 @@ export const parseNumber = (value: unknown) => {
         return num;
       }
     }
-  } else if (typeof value === "number") {
+  } else if (typeof value === 'number') {
     if (!isNaN(value) && isFinite(value) && value === Math.floor(value)) {
       return value;
     }
@@ -39,7 +39,7 @@ export const assertValidArray = (arr: unknown) => {
     arr.length !== 5 ||
     arr.some((element) => !Array.isArray(element))
   ) {
-    throw new Error("Invalid cron array");
+    throw new Error('Invalid cron array');
   }
 };
 
