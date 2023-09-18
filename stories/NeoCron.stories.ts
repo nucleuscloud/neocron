@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Cron from "@/components/ui/Cron/Cron";
+import Cron from "@/src/components/Cron/Cron";
 
 const meta = {
   title: "NeoCron",

@@ -4,12 +4,11 @@ import CronExpression from "./CronExpression";
 import ScheduleSelectors from "./ScheduleSelectors";
 import { DateTime } from "luxon";
 import ScheduleExplainer from "./Schedule";
-import { arrayToString, stringToArray } from "@/lib/part";
-import { Schedule, getSchedule } from "@/lib/schedule";
-import { CronState, ValuePayload } from "@/types";
-import { Separator } from "@radix-ui/react-select";
+import { arrayToString, stringToArray } from "@/src/lib/part";
+import { Schedule, getSchedule } from "@/src/lib/schedule";
+import { CronState, ValuePayload } from "@/src/types";
 
-export default function Cron(): ReactElement {
+export default function NeoCron(): ReactElement {
   const updateSchedule = (state: CronState): CronState => {
     const newSchedule = getSchedule(state.array);
     setSchedule(newSchedule);
@@ -107,5 +106,3 @@ switch c {
 	case "@hourly" = "0 * * * *"
 
 */
-
-//temporal convert to a struct : https://github.com/temporalio/temporal/blob/69cc69763af17a456b2ce4efc3f4f520325bedca/service/worker/scheduler/calendar.go#L338

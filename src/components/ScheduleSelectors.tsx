@@ -1,15 +1,15 @@
 import { ReactElement, useState } from "react";
 import Selector from "./Selector";
-import { getUnits } from "@/lib/units";
-import { CronState, ScheduleSelectorObject, ValuePayload } from "@/types";
+import { getUnits } from "@/src/lib/units";
+import { CronState, ScheduleSelectorObject, ValuePayload } from "@/src/types";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "../button";
+} from "@/src/components/ui/select";
+import { Button } from "../ui/button";
 
 interface Props {
   setValue: (val: ValuePayload) => void;

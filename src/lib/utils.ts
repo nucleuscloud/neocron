@@ -1,4 +1,4 @@
-import { Options } from "@/types";
+import { Options } from "@/src/types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { units } from "./units";
