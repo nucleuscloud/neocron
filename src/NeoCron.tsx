@@ -1,15 +1,14 @@
 "use client";
 import { ReactElement, useState } from "react";
-import CronExpression from "./CronExpression";
-import ScheduleSelectors from "./ScheduleSelectors";
+import CronExpression from "./components/CronExpression";
+import ScheduleSelectors from "./components/ScheduleSelectors";
 import { DateTime } from "luxon";
-import ScheduleExplainer from "./Schedule";
-import { arrayToString, stringToArray } from "@/lib/part";
-import { Schedule, getSchedule } from "@/lib/schedule";
-import { CronState, ValuePayload } from "@/types";
-import { Separator } from "@radix-ui/react-select";
+import ScheduleExplainer from "./components/Schedule";
+import { arrayToString, stringToArray } from "@/src/lib/part";
+import { Schedule, getSchedule } from "@/src/lib/schedule";
+import { CronState, ValuePayload } from "@/src/types";
 
-export default function Cron(): ReactElement {
+export default function NeoCron(): ReactElement {
   const updateSchedule = (state: CronState): CronState => {
     const newSchedule = getSchedule(state.array);
     setSchedule(newSchedule);
@@ -95,3 +94,15 @@ export default function Cron(): ReactElement {
 //TODO: update responsiveness
 
 //TODO: fix bug where if you select a value from the beignning and then unselect it it throws an erorr saying that it can't be empty but it should just go back to default all
+
+//implement easy and advanced mode
+
+/*
+switch c {
+	case "@yearly" =  "0 0 1 1 *"
+	case "@monthly" = "0 0 1 * *"
+	case "@weekly" = "0 0 * * 0"
+	case "@daily", "@midnight" =  "0 0 * * *"
+	case "@hourly" = "0 * * * *"
+
+*/

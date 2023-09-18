@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
-import { Alert, AlertDescription, AlertTitle } from "../alert";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { ClockIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { CronState } from "@/types";
+import { CronState } from "@/src/types";
 
 interface Props {
   state: CronState;
