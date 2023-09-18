@@ -1,6 +1,6 @@
-import { CronState } from "@/src/types";
-import { ReactElement } from "react";
-import { Input } from "./ui/input";
+import { CronState } from '@/src/types';
+import { ReactElement } from 'react';
+import { Input } from './ui/input';
 
 interface Props {
   state: CronState;

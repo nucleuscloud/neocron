@@ -1,4 +1,4 @@
-import { Options, Unit } from "@/src/types";
+import { Options, Unit } from '@/src/types';
 import {
   assertValidArray,
   dedup,
@@ -6,16 +6,16 @@ import {
   parseNumber,
   range,
   sort,
-} from "./utils";
-import { units } from "./units";
-import { defaultOptions } from "./utils";
+} from './utils';
+import { units } from './units';
+import { defaultOptions } from './utils';
 
 export function arrayToString(arr: number[][], options?: Partial<Options>) {
   assertValidArray(arr);
   const parts = arr.map((part, idx) =>
     arrayToStringPart(part, units[idx], { ...defaultOptions, ...options })
   );
-  return parts.join(" ");
+  return parts.join(' ');
 }
 
 /**
@@ -46,19 +46,19 @@ export const arrayToStringPart = (
     )
   );
   if (!values.length) {
-    throw getError("Empty interval value", unit);
+    throw getError('Empty interval value', unit);
   }
   assertInRange(values, unit);
   return toString(values, unit, options);
 };
 
 export function stringToArray(str: string) {
-  if (typeof str !== "string") {
-    throw new Error("Invalid cron string");
+  if (typeof str !== 'string') {
+    throw new Error('Invalid cron string');
   }
-  const parts = str.replace(/\s+/g, " ").trim().split(" ");
+  const parts = str.replace(/\s+/g, ' ').trim().split(' ');
   if (parts.length !== 5) {
-    throw new Error("Invalid cron string format");
+    throw new Error('Invalid cron string format');
   } else {
     return parts.map((str, idx) => stringToArrayPart(str, units[idx]));
   }
@@ -77,16 +77,16 @@ export const stringToArrayPart = (str: string, unit: Unit) => {
       fixSunday(
         flatten(
           replaceAlternatives(str, unit)
-            .split(",")
+            .split(',')
             .map((value: string) => {
-              const valueParts = value.split("/");
+              const valueParts = value.split('/');
               if (valueParts.length > 2) {
                 throw getError(`Invalid value "${str}"`, unit);
               }
               let parsedValues: number[];
               const left = valueParts[0];
               const right = valueParts[1];
-              if (left === "*") {
+              if (left === '*') {
                 parsedValues = range(unit.min, unit.max);
               } else {
                 parsedValues = parseRange(left, str, unit);
@@ -137,12 +137,12 @@ const toRanges = (values: number[]) => {
  * @return The part of a cron string
  */
 const toString = (values: number[], unit: Unit, options: Options) => {
-  let retval = "";
+  let retval = '';
   if (isFull(values, unit)) {
     if (options.outputHashes) {
-      retval = "H";
+      retval = 'H';
     } else {
-      retval = "*";
+      retval = '*';
     }
   } else {
     const step = getStep(values);
@@ -158,7 +158,7 @@ const toString = (values: number[], unit: Unit, options: Options) => {
         const max = values[values.length - 1];
         const range =
           formatValue(min, unit, options) +
-          "-" +
+          '-' +
           formatValue(max, unit, options);
         if (options.outputHashes) {
           retval = `H(${range})/${step}`;
@@ -174,12 +174,12 @@ const toString = (values: number[], unit: Unit, options: Options) => {
           } else {
             return (
               formatValue(range[0], unit, options) +
-              "-" +
+              '-' +
               formatValue(range[1], unit, options)
             );
           }
         })
-        .join(",");
+        .join(',');
     }
   }
   return retval;
@@ -196,8 +196,8 @@ const toString = (values: number[], unit: Unit, options: Options) => {
  */
 const formatValue = (value: number, unit: Unit, options: Options) => {
   if (
-    (options.outputWeekdayNames && unit.name === "weekday") ||
-    (options.outputMonthNames && unit.name === "month")
+    (options.outputWeekdayNames && unit.name === 'weekday') ||
+    (options.outputMonthNames && unit.name === 'month')
   ) {
     if (unit.alt) {
       return unit.alt[value - unit.min];
@@ -225,7 +225,7 @@ const getError = (error: string, unit: Unit) =>
  * @return The resulting array
  */
 const parseRange = (rangeString: string, context: string, unit: Unit) => {
-  const subparts = rangeString.split("-");
+  const subparts = rangeString.split('-');
   if (subparts.length === 1) {
     const value = parseNumber(subparts[0]);
     if (value === undefined) {
@@ -293,7 +293,7 @@ const applyInterval = (values: number[], step: number) => {
  * @return The resulting array
  */
 const fixSunday = (values: number[], unit: Unit) => {
-  if (unit.name === "weekday") {
+  if (unit.name === 'weekday') {
     values = values.map((value) => {
       if (value === 7) {
         return 0;

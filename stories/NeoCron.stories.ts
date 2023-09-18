@@ -1,14 +1,14 @@
-import NeoCron from "@/src/NeoCron";
-import type { Meta, StoryObj } from "@storybook/react";
+import NeoCron from '@/src/NeoCron';
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
-  title: "NeoCron",
+  title: 'NeoCron',
   component: NeoCron,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-  tags: ["neocron"],
+  tags: ['neocron'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/react/configure/story-layout
-    layout: "fullscreen",
+    layout: 'fullscreen',
   },
 } satisfies Meta<typeof NeoCron>;
 

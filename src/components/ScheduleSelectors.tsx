@@ -1,15 +1,15 @@
-import { ReactElement, useState } from "react";
-import Selector from "./Selector";
-import { getUnits } from "@/src/lib/units";
-import { CronState, ScheduleSelectorObject, ValuePayload } from "@/src/types";
+import { ReactElement, useState } from 'react';
+import Selector from './Selector';
+import { getUnits } from '@/src/lib/units';
+import { CronState, ScheduleSelectorObject, ValuePayload } from '@/src/types';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/src/components/ui/select";
-import { Button } from "./ui/button";
+} from '@/src/components/ui/select';
+import { Button } from './ui/button';
 
 interface Props {
   setValue: (val: ValuePayload) => void;
@@ -20,12 +20,12 @@ interface Props {
 }
 
 const scheduleSelector: ScheduleSelectorObject[] = [
-  { name: "year", prefix: "on" },
-  { name: "month", prefix: "on" },
-  { name: "weekday", prefix: "on" },
-  { name: "day", prefix: "and" },
-  { name: "hour", prefix: "at" },
-  { name: "minute", prefix: ":" },
+  { name: 'year', prefix: 'on' },
+  { name: 'month', prefix: 'on' },
+  { name: 'weekday', prefix: 'on' },
+  { name: 'day', prefix: 'and' },
+  { name: 'hour', prefix: 'at' },
+  { name: 'minute', prefix: ':' },
 ];
 
 export default function ScheduleSelectors(props: Props): ReactElement {
@@ -36,7 +36,7 @@ export default function ScheduleSelectors(props: Props): ReactElement {
     resetSelectedValues,
     setResetSelectedValues,
   } = props;
-  const [selectedsSchedule, setSelectedSchedule] = useState<string>("year");
+  const [selectedsSchedule, setSelectedSchedule] = useState<string>('year');
   const units = getUnits();
 
   const handleSelectors = () => {

@@ -1,7 +1,7 @@
-import { ReactElement } from "react";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { ClockIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { CronState } from "@/src/types";
+import { ReactElement } from 'react';
+import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { ClockIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { CronState } from '@/src/types';
 
 interface Props {
   state: CronState;
@@ -9,7 +9,7 @@ interface Props {
 
 export default function ScheduleExplainer(props: Props): ReactElement {
   const { state } = props;
-  if (state.error !== "") {
+  if (state.error !== '') {
     return (
       <div>
         <Alert variant="destructive">

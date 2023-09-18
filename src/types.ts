@@ -11,7 +11,7 @@ export type ValuePayload = {
 };
 
 export type Unit = {
-  name: "minute" | "hour" | "day" | "month" | "weekday";
+  name: 'minute' | 'hour' | 'day' | 'month' | 'weekday';
   min: number;
   max: number;
   alt?: ReadonlyArray<string>;
@@ -23,7 +23,7 @@ export type Options = {
   outputMonthNames: boolean;
 };
 
-export type Error = "" | "invalid";
+export type Error = '' | 'invalid';
 
 export type ScheduleSelectorObject = {
   name: string;
