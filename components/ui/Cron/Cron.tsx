@@ -95,3 +95,17 @@ export default function Cron(): ReactElement {
 //TODO: update responsiveness
 
 //TODO: fix bug where if you select a value from the beignning and then unselect it it throws an erorr saying that it can't be empty but it should just go back to default all
+
+//implement easy and advanced mode
+
+/*
+switch c {
+	case "@yearly" =  "0 0 1 1 *"
+	case "@monthly" = "0 0 1 * *"
+	case "@weekly" = "0 0 * * 0"
+	case "@daily", "@midnight" =  "0 0 * * *"
+	case "@hourly" = "0 * * * *"
+
+*/
+
+//temporal convert to a struct : https://github.com/temporalio/temporal/blob/69cc69763af17a456b2ce4efc3f4f520325bedca/service/worker/scheduler/calendar.go#L338
