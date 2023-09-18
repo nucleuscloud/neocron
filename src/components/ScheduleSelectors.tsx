@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/src/components/ui/select";
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
 
 interface Props {
   setValue: (val: ValuePayload) => void;

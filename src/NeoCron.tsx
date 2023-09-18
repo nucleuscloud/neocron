@@ -1,9 +1,9 @@
 "use client";
 import { ReactElement, useState } from "react";
-import CronExpression from "./CronExpression";
-import ScheduleSelectors from "./ScheduleSelectors";
+import CronExpression from "./components/CronExpression";
+import ScheduleSelectors from "./components/ScheduleSelectors";
 import { DateTime } from "luxon";
-import ScheduleExplainer from "./Schedule";
+import ScheduleExplainer from "./components/Schedule";
 import { arrayToString, stringToArray } from "@/src/lib/part";
 import { Schedule, getSchedule } from "@/src/lib/schedule";
 import { CronState, ValuePayload } from "@/src/types";
