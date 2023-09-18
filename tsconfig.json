@@ -14,14 +14,6 @@
     "jsx": "react-jsx",
     "incremental": true,
     "declaration": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./*"]
-    }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "stories/**/*.ts"],
   "exclude": ["node_modules"]

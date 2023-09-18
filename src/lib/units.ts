@@ -1,4 +1,4 @@
-import { Unit } from '@/src/types';
+import { Unit } from '../types';
 
 //the default unit definitions for each of the cron time selections
 export const units: Unit[] = [
