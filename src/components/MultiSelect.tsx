@@ -1,22 +1,22 @@
 'use client';
-import { Check, ChevronsUpDown, X } from 'lucide-react';
+import { ChevronsUpDown } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { cn } from '@/src/lib/utils';
-import { Badge } from '@/src/components/ui/badge';
-import { Button } from '@/src/components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { Button } from '../components/ui/button';
 import {
   Command,
   CommandGroup,
   CommandItem,
   CommandSeparator,
-} from '@/src/components/ui/command';
+} from '../components/ui/command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/src/components/ui/popover';
-import { Unit } from '@/src/types';
-import { spreadOption } from '@/src/lib/units';
+} from '../components/ui/popover';
+import { spreadOption } from '../lib/units';
+import { cn } from '../lib/utils';
+import { Unit } from '../types';
 
 interface Props {
   options: Unit;

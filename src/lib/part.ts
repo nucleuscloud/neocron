@@ -1,14 +1,14 @@
-import { Options, Unit } from '@/src/types';
+import { Options, Unit } from '../types';
+import { units } from './units';
 import {
   assertValidArray,
   dedup,
+  defaultOptions,
   flatten,
   parseNumber,
   range,
   sort,
 } from './utils';
-import { units } from './units';
-import { defaultOptions } from './utils';
 
 export function arrayToString(arr: number[][], options?: Partial<Options>) {
   assertValidArray(arr);

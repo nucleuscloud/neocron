@@ -1,12 +1,12 @@
 'use client';
+import { DateTime } from 'luxon';
 import { ReactElement, useState } from 'react';
 import CronExpression from './components/CronExpression';
-import ScheduleSelectors from './components/ScheduleSelectors';
-import { DateTime } from 'luxon';
 import ScheduleExplainer from './components/Schedule';
-import { arrayToString, stringToArray } from '@/src/lib/part';
-import { Schedule, getSchedule } from '@/src/lib/schedule';
-import { CronState, ValuePayload } from '@/src/types';
+import ScheduleSelectors from './components/ScheduleSelectors';
+import { arrayToString, stringToArray } from './lib/part';
+import { Schedule, getSchedule } from './lib/schedule';
+import { CronState, ValuePayload } from './types';
 
 export default function NeoCron(): ReactElement {
   const updateSchedule = (state: CronState): CronState => {

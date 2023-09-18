@@ -1,5 +1,5 @@
-import NeoCron from '@/src/NeoCron';
 import type { Meta, StoryObj } from '@storybook/react';
+import NeoCron from '../src/NeoCron';
 
 const meta = {
   title: 'NeoCron',
