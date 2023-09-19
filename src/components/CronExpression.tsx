@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import { CronState } from '../types';
 import { Input } from './ui/input';
 
