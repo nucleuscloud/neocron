@@ -99,7 +99,14 @@ export default function NeoCron(): ReactElement {
   );
 }
 
-//TODO: see why when days and minutes are crossing when being set
+//TODO: see why when days and minutes are crossing when being set, its' in the use effect in the multiselect
+//in the   :
+// if (arr && Array.isArray(arr)) {
+//   if (!isFull(arr[index], options)) {
+//     setSelectedValues(arr[index].map(String));
+//   }
+// }
+//section
 
 //TODO: update responsiveness
 

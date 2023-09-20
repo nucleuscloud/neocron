@@ -21,7 +21,7 @@ import { Badge } from './ui/badge';
 
 interface Props {
   options: Unit;
-  onChange: (opt: string[]) => void;
+  onChange: (ind: number, opt: string[]) => void;
   resetSelectedValues: boolean;
   setResetSelectedValues: (val: boolean) => void;
   state: CronState;
@@ -42,6 +42,9 @@ export default function MultiSelect(props: Props) {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
 
+  const allUnits = getUnits();
+  const ind = allUnits.findIndex((unit) => unit.name == options.name);
+
   useEffect(() => {
     if (resetSelectedValues) {
       setSelectedValues([]);
@@ -54,8 +57,7 @@ export default function MultiSelect(props: Props) {
       const updatedOptions = !currentOption.includes(option)
         ? [...currentOption, option]
         : currentOption.filter((curr) => curr !== option);
-
-      onChange(updatedOptions); // Notify parent about the change.
+      onChange(ind, updatedOptions); // Notify parent about the change.
 
       return updatedOptions;
     });
@@ -71,6 +73,7 @@ export default function MultiSelect(props: Props) {
       const arr = stringToArray(state.expression); //prints the number[][] array of all selectors
       const allUnits = getUnits(); //get all units so we can find the index of this selectors unit
       const index = allUnits.findIndex((unit) => unit.name == options.name);
+
       if (arr && Array.isArray(arr)) {
         if (!isFull(arr[index], options)) {
           setSelectedValues(arr[index].map(String));
@@ -86,11 +89,11 @@ export default function MultiSelect(props: Props) {
       setSelectAll(true);
       const allOptions = spreadOption(options);
       setSelectedValues(allOptions);
-      onChange(allOptions);
+      onChange(ind, allOptions);
     } else {
       setSelectAll(false);
       setSelectedValues([]);
-      onChange([]); // Notify parent about the change.
+      onChange(0, []); // Notify parent about the change.
     }
   };
 
