@@ -1,6 +1,6 @@
 'use client';
 import { ChevronsUpDown } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import {
@@ -14,21 +14,32 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '../components/ui/popover';
+import { isFull, stringToArray } from '../lib/part';
 import { spreadOption } from '../lib/units';
 import { cn } from '../lib/utils';
-import { Unit } from '../types';
+import { CronState, Unit } from '../types';
 
 interface Props {
   options: Unit;
   onChange: (opt: string[]) => void;
   resetSelectedValues: boolean;
   setResetSelectedValues: (val: boolean) => void;
+  state: CronState;
+  index: number;
+  unitValues: number[];
 }
 
 export default function MultiSelect(props: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { options, onChange, resetSelectedValues, setResetSelectedValues } =
-    props;
+  const {
+    options,
+    onChange,
+    resetSelectedValues,
+    setResetSelectedValues,
+    state,
+    index,
+    unitValues,
+  } = props;
   const [openCombobox, setOpenCombobox] = useState(false);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
@@ -53,6 +64,19 @@ export default function MultiSelect(props: Props) {
 
     inputRef?.current?.focus();
   };
+
+  //this handles converting the cron expression to the selected values if a user types in a string first
+  //this is a little hacky and we should prob find a better way of doing this
+  //the if(!isFull){...}only updates the values in the UI if the user has changed it otherwise leaves it
+  //this is to prevent the case where the base cron string is * and it selects everything in the drop down
+  useEffect(() => {
+    const a = stringToArray(state.expression);
+    if (a && Array.isArray(a) && a[index]) {
+      if (!isFull(unitValues, options)) {
+        setSelectedValues(a[index].map(String));
+      }
+    }
+  }, [state]);
 
   const handleSelectAll = () => {
     if (!selectAll) {

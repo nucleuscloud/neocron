@@ -1,4 +1,5 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
+import { stringToArray } from '../lib/part';
 import { CronState, Unit, ValuePayload } from '../types';
 import MultiSelect from './MultiSelect';
 
@@ -12,8 +13,14 @@ interface Props {
 }
 
 export default function Selector(props: Props): ReactElement {
-  const { unit, index, setValue, resetSelectedValues, setResetSelectedValues } =
-    props;
+  const {
+    unit,
+    index,
+    setValue,
+    resetSelectedValues,
+    setResetSelectedValues,
+    state,
+  } = props;
 
   return (
     <MultiSelect
@@ -21,6 +28,9 @@ export default function Selector(props: Props): ReactElement {
       onChange={(e) => {
         setValue({ index, values: e.map(Number) });
       }}
+      index={index}
+      state={state}
+      unitValues={stringToArray(state.expression)[index]}
       resetSelectedValues={resetSelectedValues}
       setResetSelectedValues={setResetSelectedValues}
     />
