@@ -409,9 +409,12 @@ export const isFull = (values: number[], unit: Unit) => {
  * @return array of numbers
  */
 
-export const createRanges = (values: number[]): number[] => {
-  const aggregated: number[] = [];
+export const createRanges = (values: number[]): string[] => {
+  const aggregated: string[] = [];
+
   let startRange: number | null = null;
+
+  console.log('values', values);
 
   for (let i = 0; i < values.length; i++) {
     if (startRange == null) {
@@ -420,13 +423,15 @@ export const createRanges = (values: number[]): number[] => {
 
     if (i == values.length - 1 || values[i + 1] !== values[i] + 1) {
       if (startRange === values[i]) {
-        aggregated.push(startRange);
+        aggregated.push(startRange.toString());
       } else {
-        aggregated.push(startRange - values[i]);
+        aggregated.push(`${startRange}-${values[i]}`);
       }
       startRange = null;
     }
   }
+
+  console.log('agg', aggregated);
 
   return aggregated;
 };

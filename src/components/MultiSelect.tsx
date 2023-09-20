@@ -1,7 +1,6 @@
 'use client';
 import { ChevronsUpDown } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import {
   Command,
@@ -14,10 +13,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '../components/ui/popover';
-import { isFull, stringToArray } from '../lib/part';
+import { createRanges, isFull, stringToArray } from '../lib/part';
 import { getUnits, spreadOption } from '../lib/units';
 import { cn } from '../lib/utils';
 import { CronState, Unit } from '../types';
+import { Badge } from './ui/badge';
 
 interface Props {
   options: Unit;
@@ -122,14 +122,25 @@ export default function MultiSelect(props: Props) {
             <div className="flex flex-row">
               <div className="flex flex-wrap items-start">
                 {selectedValues.length > 0 ? (
-                  selectedValues
-                    ?.sort((a, b) => Number(a) - Number(b))
-                    .map((item) => (
-                      <Badge variant="secondary" key={item} className="mr-1">
-                        {formatOption(item)}
-                      </Badge>
-                    ))
+                  createRanges(
+                    selectedValues
+                      ?.sort((a, b) => Number(a) - Number(b))
+                      .map(Number)
+                  ).map((item) => (
+                    <Badge variant="secondary" key={item} className="mr-1">
+                      {formatOption(item)}
+                    </Badge>
+                  ))
                 ) : (
+                  //   <Badge variant="secondary" key={item} className="mr-1">
+                  //     {formatOption(item)}
+                  //   </Badge>
+                  // ))
+                  // .map((item) => (
+                  //   <Badge variant="secondary" key={item} className="mr-1">
+                  //     {formatOption(item)}
+                  //   </Badge>
+                  // ))
                   <div className="text-center font-light text-gray-300 text-sm">
                     All
                   </div>
