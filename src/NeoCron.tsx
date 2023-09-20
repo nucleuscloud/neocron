@@ -11,10 +11,11 @@ import { CronState, ValuePayload } from './types';
 interface Props {
   cronString: string; //the cron string itself
   isValid: boolean; //true is the string is valid
+  defaultCronString: string; //if you want to specify a default cron string to start with
 }
 
 export default function NeoCron(props: Props): ReactElement {
-  const { cronString, isValid } = props;
+  const { cronString, isValid, defaultCronString } = props;
   const updateSchedule = (state: CronState): CronState => {
     const newSchedule = getSchedule(state.array);
     setSchedule(newSchedule);
@@ -99,8 +100,6 @@ export default function NeoCron(props: Props): ReactElement {
 }
 
 //TODO: fix the ranges for when multiple values are selected in teh same selector
-
-//TODO-stretch: update the selectors when someone manually enters in a cron expression
 
 //TODO: update responsiveness
 
