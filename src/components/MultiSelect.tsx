@@ -1,7 +1,6 @@
 'use client';
 import { ChevronsUpDown } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import {
   Command,
@@ -14,14 +13,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '../components/ui/popover';
-import { isFull, stringToArray } from '../lib/part';
+import { createRanges, isFull, stringToArray } from '../lib/part';
 import { getUnits, spreadOption } from '../lib/units';
 import { cn } from '../lib/utils';
 import { CronState, Unit } from '../types';
+import { Badge } from './ui/badge';
 
 interface Props {
   options: Unit;
-  onChange: (opt: string[]) => void;
+  onChange: (ind: number, opt: string[]) => void;
   resetSelectedValues: boolean;
   setResetSelectedValues: (val: boolean) => void;
   state: CronState;
@@ -42,6 +42,9 @@ export default function MultiSelect(props: Props) {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
 
+  const allUnits = getUnits();
+  const ind = allUnits.findIndex((unit) => unit.name == options.name);
+
   useEffect(() => {
     if (resetSelectedValues) {
       setSelectedValues([]);
@@ -54,8 +57,7 @@ export default function MultiSelect(props: Props) {
       const updatedOptions = !currentOption.includes(option)
         ? [...currentOption, option]
         : currentOption.filter((curr) => curr !== option);
-
-      onChange(updatedOptions); // Notify parent about the change.
+      onChange(ind, updatedOptions); // Notify parent about the change.
 
       return updatedOptions;
     });
@@ -71,6 +73,7 @@ export default function MultiSelect(props: Props) {
       const arr = stringToArray(state.expression); //prints the number[][] array of all selectors
       const allUnits = getUnits(); //get all units so we can find the index of this selectors unit
       const index = allUnits.findIndex((unit) => unit.name == options.name);
+
       if (arr && Array.isArray(arr)) {
         if (!isFull(arr[index], options)) {
           setSelectedValues(arr[index].map(String));
@@ -86,11 +89,11 @@ export default function MultiSelect(props: Props) {
       setSelectAll(true);
       const allOptions = spreadOption(options);
       setSelectedValues(allOptions);
-      onChange(allOptions);
+      onChange(ind, allOptions);
     } else {
       setSelectAll(false);
       setSelectedValues([]);
-      onChange([]); // Notify parent about the change.
+      onChange(0, []); // Notify parent about the change.
     }
   };
 
@@ -108,6 +111,36 @@ export default function MultiSelect(props: Props) {
     }
   };
 
+  //renders badges in the combobox and aggregates ranges for days, hours and minutes
+  //while leaving months and weekdays alone
+  const renderBadges = () => {
+    if (options?.alt) {
+      return selectedValues.length > 0 ? (
+        selectedValues
+          ?.sort((a, b) => Number(a) - Number(b))
+          .map((item) => (
+            <Badge variant="secondary" key={item} className="mr-1">
+              {formatOption(item)}
+            </Badge>
+          ))
+      ) : (
+        <div className="text-center font-light text-gray-300 text-sm">All</div>
+      );
+    } else {
+      return selectedValues.length > 0 ? (
+        createRanges(
+          selectedValues?.sort((a, b) => Number(a) - Number(b)).map(Number)
+        ).map((item) => (
+          <Badge variant="secondary" key={item} className="mr-1">
+            {formatOption(item)}
+          </Badge>
+        ))
+      ) : (
+        <div className="text-center font-light text-gray-300 text-sm">All</div>
+      );
+    }
+  };
+
   return (
     <div className="flex flex-col items-center">
       <div className="text-xs text-center">{options.name}(s)</div>
@@ -120,21 +153,7 @@ export default function MultiSelect(props: Props) {
             className="flex flex-wrap items-start max-w-sm h-auto text-foreground"
           >
             <div className="flex flex-row">
-              <div className="flex flex-wrap items-start">
-                {selectedValues.length > 0 ? (
-                  selectedValues
-                    ?.sort((a, b) => Number(a) - Number(b))
-                    .map((item) => (
-                      <Badge variant="secondary" key={item} className="mr-1">
-                        {formatOption(item)}
-                      </Badge>
-                    ))
-                ) : (
-                  <div className="text-center font-light text-gray-300 text-sm">
-                    All
-                  </div>
-                )}
-              </div>
+              <div className="flex flex-wrap items-start">{renderBadges()}</div>
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </div>
           </Button>

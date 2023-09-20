@@ -59,8 +59,8 @@ export default function ScheduleSelectors(props: Props): ReactElement {
           <div>
             <MultiSelect
               options={unit}
-              onChange={(e) => {
-                setValue({ index, values: e.map(Number) });
+              onChange={(a, e) => {
+                setValue({ index: a, values: e.map(Number) });
               }}
               setError={setError}
               state={state}
