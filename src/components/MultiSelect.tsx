@@ -108,7 +108,7 @@ export default function MultiSelect(props: Props) {
     }
   };
 
-  //renders badges in the combobox and aggreagtes ranges for days, hours and minutes
+  //renders badges in the combobox and aggregates ranges for days, hours and minutes
   //while leaving months and weekdays alone
   const renderBadges = () => {
     if (options?.alt) {

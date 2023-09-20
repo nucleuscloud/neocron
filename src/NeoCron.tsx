@@ -99,6 +99,8 @@ export default function NeoCron(): ReactElement {
   );
 }
 
+//TODO: see why when days and minutes are crossing when being set
+
 //TODO: update responsiveness
 
 //TODO: fix bug where if you select a value from the beignning and then unselect it it throws an erorr saying that it can't be empty but it should just go back to default all
