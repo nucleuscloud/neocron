@@ -414,8 +414,6 @@ export const createRanges = (values: number[]): string[] => {
 
   let startRange: number | null = null;
 
-  console.log('values', values);
-
   for (let i = 0; i < values.length; i++) {
     if (startRange == null) {
       startRange = values[i];
@@ -430,8 +428,6 @@ export const createRanges = (values: number[]): string[] => {
       startRange = null;
     }
   }
-
-  console.log('agg', aggregated);
 
   return aggregated;
 };
