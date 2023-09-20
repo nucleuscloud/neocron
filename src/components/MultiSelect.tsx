@@ -128,7 +128,7 @@ export default function MultiSelect(props: Props) {
                     ))
                 ) : (
                   <div className="text-center font-light text-gray-300 text-sm">
-                    {options.name}(s)
+                    All
                   </div>
                 )}
               </div>
