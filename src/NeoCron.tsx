@@ -8,14 +8,14 @@ import { arrayToString, stringToArray } from './lib/part';
 import { Schedule, getSchedule } from './lib/schedule';
 import { CronState, ValuePayload } from './types';
 
-interface Props {
-  cronString: string; //the cron string itself
-  isValid: boolean; //true is the string is valid
-  defaultCronString: string; //if you want to specify a default cron string to start with
-}
+// interface Props {
+//   cronString: string; //the cron string itself
+//   isValid: boolean; //true is the string is valid
+//   defaultCronString: string; //if you want to specify a default cron string to start with
+// }
 
-export default function NeoCron(props: Props): ReactElement {
-  const { cronString, isValid, defaultCronString } = props;
+export default function NeoCron(): ReactElement {
+  // const { cronString, isValid, defaultCronString } = props;
   const updateSchedule = (state: CronState): CronState => {
     const newSchedule = getSchedule(state.array);
     setSchedule(newSchedule);
