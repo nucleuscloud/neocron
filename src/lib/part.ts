@@ -54,7 +54,9 @@ export const arrayToStringPart = (
 
 export function stringToArray(str: string) {
   if (typeof str !== 'string') {
-    throw new Error('Invalid cron string');
+    throw new Error(
+      'Invalid cron expression, make sure you have spaces in between each expression'
+    );
   }
   const parts = str.replace(/\s+/g, ' ').trim().split(' ');
   if (parts.length !== 5) {
@@ -398,4 +400,33 @@ const getStep = (values: number[]) => {
  */
 export const isFull = (values: number[], unit: Unit) => {
   return values.length === unit.max - unit.min + 1;
+};
+
+/**
+ * Returns a ranged value from an array of numbers if it can
+ * iterates through values until it reaches a gap or end of array and then pushes that into the return array
+ * @param values An array of numbers
+ * @return array of numbers
+ */
+
+export const createRanges = (values: number[]): number[] => {
+  const aggregated: number[] = [];
+  let startRange: number | null = null;
+
+  for (let i = 0; i < values.length; i++) {
+    if (startRange == null) {
+      startRange = values[i];
+    }
+
+    if (i == values.length - 1 || values[i + 1] !== values[i] + 1) {
+      if (startRange === values[i]) {
+        aggregated.push(startRange);
+      } else {
+        aggregated.push(startRange - values[i]);
+      }
+      startRange = null;
+    }
+  }
+
+  return aggregated;
 };
