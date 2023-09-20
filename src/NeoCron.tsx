@@ -107,6 +107,8 @@ export default function NeoCron(): ReactElement {
 
 //implement easy and advanced mode
 
+//TODO: support cron expression with no spaces
+
 /*
 switch c {
 	case "@yearly" =  "0 0 1 1 *"
