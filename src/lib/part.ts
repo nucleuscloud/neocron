@@ -213,7 +213,7 @@ const formatValue = (value: number, unit: Unit, options: Options) => {
  * @param unit The unit for the part
  * @return The `Error`
  */
-const getError = (error: string, unit: Unit) =>
+export const getError = (error: string, unit: Unit) =>
   new Error(`${error} for ${unit.name}`);
 
 /**

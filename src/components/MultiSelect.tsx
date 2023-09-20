@@ -15,7 +15,7 @@ import {
   PopoverTrigger,
 } from '../components/ui/popover';
 import { isFull, stringToArray } from '../lib/part';
-import { spreadOption } from '../lib/units';
+import { getUnits, spreadOption } from '../lib/units';
 import { cn } from '../lib/utils';
 import { CronState, Unit } from '../types';
 
@@ -25,8 +25,7 @@ interface Props {
   resetSelectedValues: boolean;
   setResetSelectedValues: (val: boolean) => void;
   state: CronState;
-  index: number;
-  unitValues: number[];
+  setError: (val: string) => void;
 }
 
 export default function MultiSelect(props: Props) {
@@ -37,8 +36,7 @@ export default function MultiSelect(props: Props) {
     resetSelectedValues,
     setResetSelectedValues,
     state,
-    index,
-    unitValues,
+    setError,
   } = props;
   const [openCombobox, setOpenCombobox] = useState(false);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
@@ -66,15 +64,20 @@ export default function MultiSelect(props: Props) {
   };
 
   //this handles converting the cron expression to the selected values if a user types in a string first
-  //this is a little hacky and we should prob find a better way of doing this
   //the if(!isFull){...}only updates the values in the UI if the user has changed it otherwise leaves it
-  //this is to prevent the case where the base cron string is * and it selects everything in the drop down
+  //this is to prevent the case where the base cron string is ***** and it selects everything in the drop down
   useEffect(() => {
-    const a = stringToArray(state.expression);
-    if (a && Array.isArray(a) && a[index]) {
-      if (!isFull(unitValues, options)) {
-        setSelectedValues(a[index].map(String));
+    try {
+      const arr = stringToArray(state.expression); //prints the number[][] array of all selectors
+      const allUnits = getUnits(); //get all units so we can find the index of this selectors unit
+      const index = allUnits.findIndex((unit) => unit.name == options.name);
+      if (arr && Array.isArray(arr)) {
+        if (!isFull(arr[index], options)) {
+          setSelectedValues(arr[index].map(String));
+        }
       }
+    } catch (e: any) {
+      setError(e.message);
     }
   }, [state]);
 
@@ -91,7 +94,7 @@ export default function MultiSelect(props: Props) {
     }
   };
 
-  //formats option with alt text to include that
+  //formats option with alt text
   const formatOption = (option: string) => {
     if (options?.alt) {
       if (options.name == 'month') {

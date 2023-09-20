@@ -9,11 +9,12 @@ import { Schedule, getSchedule } from './lib/schedule';
 import { CronState, ValuePayload } from './types';
 
 interface Props {
-  cronString: string;
+  cronString: string; //the cron string itself
+  isValid: boolean; //true is the string is valid
 }
 
 export default function NeoCron(props: Props): ReactElement {
-  const { cronString } = props;
+  const { cronString, isValid } = props;
   const updateSchedule = (state: CronState): CronState => {
     const newSchedule = getSchedule(state.array);
     setSchedule(newSchedule);
@@ -66,6 +67,10 @@ export default function NeoCron(props: Props): ReactElement {
     setState(newState);
   };
 
+  const setError = (error: string) => {
+    setState({ ...state, error: error });
+  };
+
   const resetSchedule = () => {
     schedule.reset;
     setState(getInitialState());
@@ -86,6 +91,7 @@ export default function NeoCron(props: Props): ReactElement {
         state={state}
         resetSelectedValues={resetSelectedValues}
         setResetSelectedValues={setResetSelectedValues}
+        setError={setError}
       />
       <ScheduleExplainer state={state} />
     </div>
