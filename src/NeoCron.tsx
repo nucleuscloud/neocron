@@ -1,6 +1,6 @@
 'use client';
 import { DateTime } from 'luxon';
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import CronExpression from './components/CronExpression';
 import ScheduleExplainer from './components/Schedule';
 import ScheduleSelectors from './components/ScheduleSelectors';
@@ -8,7 +8,14 @@ import { arrayToString, stringToArray } from './lib/part';
 import { Schedule, getSchedule } from './lib/schedule';
 import { CronState, ValuePayload } from './types';
 
+// interface Props {
+//   cronString: string; //the cron string itself
+//   isValid: boolean; //true is the string is valid
+//   defaultCronString: string; //if you want to specify a default cron string to start with
+// }
+
 export default function NeoCron(): ReactElement {
+  // const { cronString, isValid, defaultCronString } = props;
   const updateSchedule = (state: CronState): CronState => {
     const newSchedule = getSchedule(state.array);
     setSchedule(newSchedule);
@@ -61,6 +68,10 @@ export default function NeoCron(): ReactElement {
     setState(newState);
   };
 
+  const setError = (error: string) => {
+    setState({ ...state, error: error });
+  };
+
   const resetSchedule = () => {
     schedule.reset;
     setState(getInitialState());
@@ -81,6 +92,7 @@ export default function NeoCron(): ReactElement {
         state={state}
         resetSelectedValues={resetSelectedValues}
         setResetSelectedValues={setResetSelectedValues}
+        setError={setError}
       />
       <ScheduleExplainer state={state} />
     </div>
@@ -89,13 +101,13 @@ export default function NeoCron(): ReactElement {
 
 //TODO: fix the ranges for when multiple values are selected in teh same selector
 
-//TODO-stretch: update the selectors when someone manually enters in a cron expression
-
 //TODO: update responsiveness
 
 //TODO: fix bug where if you select a value from the beignning and then unselect it it throws an erorr saying that it can't be empty but it should just go back to default all
 
 //implement easy and advanced mode
+
+//TODO: support cron expression with no spaces
 
 /*
 switch c {

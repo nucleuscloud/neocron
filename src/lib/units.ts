@@ -55,7 +55,7 @@ export const spreadOption = (option: Unit) => {
   return spreadArr;
 };
 
-//Returns a readonly version of the unit array
+//Returns the unit array
 export function getUnits() {
   return units;
 }

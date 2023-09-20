@@ -1,5 +1,5 @@
 import { ClockIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { CronState } from '../types';
 import { Alert, AlertDescription } from './ui/alert';
 
@@ -14,7 +14,6 @@ export default function ScheduleExplainer(props: Props): ReactElement {
       <div>
         <Alert variant="destructive">
           <ExclamationTriangleIcon />
-
           <AlertDescription>{state.error}</AlertDescription>
         </Alert>
       </div>

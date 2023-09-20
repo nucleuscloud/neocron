@@ -213,7 +213,7 @@ const formatValue = (value: number, unit: Unit, options: Options) => {
  * @param unit The unit for the part
  * @return The `Error`
  */
-const getError = (error: string, unit: Unit) =>
+export const getError = (error: string, unit: Unit) =>
   new Error(`${error} for ${unit.name}`);
 
 /**
@@ -396,6 +396,6 @@ const getStep = (values: number[]) => {
  * @param unit The unit for the part
  * @return `true` or `false`
  */
-const isFull = (values: number[], unit: Unit) => {
+export const isFull = (values: number[], unit: Unit) => {
   return values.length === unit.max - unit.min + 1;
 };

@@ -1,6 +1,6 @@
 'use client';
 import { ChevronsUpDown } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import {
@@ -14,21 +14,30 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '../components/ui/popover';
-import { spreadOption } from '../lib/units';
+import { isFull, stringToArray } from '../lib/part';
+import { getUnits, spreadOption } from '../lib/units';
 import { cn } from '../lib/utils';
-import { Unit } from '../types';
+import { CronState, Unit } from '../types';
 
 interface Props {
   options: Unit;
   onChange: (opt: string[]) => void;
   resetSelectedValues: boolean;
   setResetSelectedValues: (val: boolean) => void;
+  state: CronState;
+  setError: (val: string) => void;
 }
 
 export default function MultiSelect(props: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { options, onChange, resetSelectedValues, setResetSelectedValues } =
-    props;
+  const {
+    options,
+    onChange,
+    resetSelectedValues,
+    setResetSelectedValues,
+    state,
+    setError,
+  } = props;
   const [openCombobox, setOpenCombobox] = useState(false);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
@@ -54,6 +63,24 @@ export default function MultiSelect(props: Props) {
     inputRef?.current?.focus();
   };
 
+  //this handles converting the cron expression to the selected values if a user types in a string first
+  //the if(!isFull){...}only updates the values in the UI if the user has changed it otherwise leaves it
+  //this is to prevent the case where the base cron string is ***** and it selects everything in the drop down
+  useEffect(() => {
+    try {
+      const arr = stringToArray(state.expression); //prints the number[][] array of all selectors
+      const allUnits = getUnits(); //get all units so we can find the index of this selectors unit
+      const index = allUnits.findIndex((unit) => unit.name == options.name);
+      if (arr && Array.isArray(arr)) {
+        if (!isFull(arr[index], options)) {
+          setSelectedValues(arr[index].map(String));
+        }
+      }
+    } catch (e: any) {
+      setError(e.message);
+    }
+  }, [state]);
+
   const handleSelectAll = () => {
     if (!selectAll) {
       setSelectAll(true);
@@ -67,7 +94,7 @@ export default function MultiSelect(props: Props) {
     }
   };
 
-  //formats option with alt text to include that
+  //formats option with alt text
   const formatOption = (option: string) => {
     if (options?.alt) {
       if (options.name == 'month') {
@@ -104,7 +131,7 @@ export default function MultiSelect(props: Props) {
                     ))
                 ) : (
                   <div className="text-center font-light text-gray-300 text-sm">
-                    {options.name}(s)
+                    All
                   </div>
                 )}
               </div>

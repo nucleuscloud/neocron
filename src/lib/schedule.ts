@@ -49,7 +49,6 @@ export class Schedule {
   reset = () => {
     this.pristine = true;
     this.date = this.now.plus(0);
-    // this.arr = stringToArray("*****")
   };
 
   /**

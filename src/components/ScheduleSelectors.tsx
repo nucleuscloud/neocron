@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -8,7 +8,7 @@ import {
 } from '../components/ui/select';
 import { getUnits } from '../lib/units';
 import { CronState, ScheduleSelectorObject, ValuePayload } from '../types';
-import Selector from './Selector';
+import MultiSelect from './MultiSelect';
 import { Button } from './ui/button';
 
 interface Props {
@@ -17,6 +17,7 @@ interface Props {
   state: CronState;
   resetSelectedValues: boolean;
   setResetSelectedValues: (val: boolean) => void;
+  setError: (val: string) => void;
 }
 
 const scheduleSelector: ScheduleSelectorObject[] = [
@@ -35,13 +36,14 @@ export default function ScheduleSelectors(props: Props): ReactElement {
     state,
     resetSelectedValues,
     setResetSelectedValues,
+    setError,
   } = props;
-  const [selectedsSchedule, setSelectedSchedule] = useState<string>('year');
+  const [selectedSchedule, setSelectedSchedule] = useState<string>('year');
   const units = getUnits();
 
   const handleSelectors = () => {
     const index = scheduleSelector.findIndex(
-      (ind) => ind.name == selectedsSchedule
+      (ind) => ind.name == selectedSchedule
     );
     return scheduleSelector.slice(index + 1).map((opt) => {
       //add 1 to the index so only the selectors after the selected value are returned
@@ -55,10 +57,12 @@ export default function ScheduleSelectors(props: Props): ReactElement {
         <div key={opt.name} className="flex flex-row items-center space-x-3">
           <div className="pt-4 text-sm">{opt.prefix}</div>
           <div>
-            <Selector
-              unit={unit}
-              index={units.findIndex((unit) => unit.name === opt.name)}
-              setValue={setValue}
+            <MultiSelect
+              options={unit}
+              onChange={(e) => {
+                setValue({ index, values: e.map(Number) });
+              }}
+              setError={setError}
               state={state}
               resetSelectedValues={resetSelectedValues}
               setResetSelectedValues={setResetSelectedValues}
@@ -75,7 +79,7 @@ export default function ScheduleSelectors(props: Props): ReactElement {
         <div className="whitespace-nowrap text-sm lg:p-0 pl-3">Run every</div>
         <Select onValueChange={(opt: string) => setSelectedSchedule(opt)}>
           <SelectTrigger>
-            <SelectValue placeholder={selectedsSchedule} />
+            <SelectValue placeholder={selectedSchedule} />
           </SelectTrigger>
           <SelectContent>
             {scheduleSelector.map((opt) => (
