@@ -132,15 +132,6 @@ export default function MultiSelect(props: Props) {
                     </Badge>
                   ))
                 ) : (
-                  //   <Badge variant="secondary" key={item} className="mr-1">
-                  //     {formatOption(item)}
-                  //   </Badge>
-                  // ))
-                  // .map((item) => (
-                  //   <Badge variant="secondary" key={item} className="mr-1">
-                  //     {formatOption(item)}
-                  //   </Badge>
-                  // ))
                   <div className="text-center font-light text-gray-300 text-sm">
                     All
                   </div>
