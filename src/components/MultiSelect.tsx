@@ -108,6 +108,36 @@ export default function MultiSelect(props: Props) {
     }
   };
 
+  //renders badges in the combobox and aggreagtes ranges for days, hours and minutes
+  //while leaving months and weekdays alone
+  const renderBadges = () => {
+    if (options?.alt) {
+      return selectedValues.length > 0 ? (
+        selectedValues
+          ?.sort((a, b) => Number(a) - Number(b))
+          .map((item) => (
+            <Badge variant="secondary" key={item} className="mr-1">
+              {formatOption(item)}
+            </Badge>
+          ))
+      ) : (
+        <div className="text-center font-light text-gray-300 text-sm">All</div>
+      );
+    } else {
+      return selectedValues.length > 0 ? (
+        createRanges(
+          selectedValues?.sort((a, b) => Number(a) - Number(b)).map(Number)
+        ).map((item) => (
+          <Badge variant="secondary" key={item} className="mr-1">
+            {formatOption(item)}
+          </Badge>
+        ))
+      ) : (
+        <div className="text-center font-light text-gray-300 text-sm">All</div>
+      );
+    }
+  };
+
   return (
     <div className="flex flex-col items-center">
       <div className="text-xs text-center">{options.name}(s)</div>
@@ -120,23 +150,7 @@ export default function MultiSelect(props: Props) {
             className="flex flex-wrap items-start max-w-sm h-auto text-foreground"
           >
             <div className="flex flex-row">
-              <div className="flex flex-wrap items-start">
-                {selectedValues.length > 0 ? (
-                  createRanges(
-                    selectedValues
-                      ?.sort((a, b) => Number(a) - Number(b))
-                      .map(Number)
-                  ).map((item) => (
-                    <Badge variant="secondary" key={item} className="mr-1">
-                      {formatOption(item)}
-                    </Badge>
-                  ))
-                ) : (
-                  <div className="text-center font-light text-gray-300 text-sm">
-                    All
-                  </div>
-                )}
-              </div>
+              <div className="flex flex-wrap items-start">{renderBadges()}</div>
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </div>
           </Button>
