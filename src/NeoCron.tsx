@@ -1,6 +1,6 @@
 'use client';
 import { DateTime } from 'luxon';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import CronExpression from './components/CronExpression';
 import ScheduleExplainer from './components/Schedule';
 import ScheduleSelectors from './components/ScheduleSelectors';
@@ -8,14 +8,26 @@ import { arrayToString, stringToArray } from './lib/part';
 import { Schedule, getSchedule } from './lib/schedule';
 import { CronState, ValuePayload } from './types';
 
-// interface Props {
-//   cronString: string; //the cron string itself
-//   isValid: boolean; //true is the string is valid
-//   defaultCronString: string; //if you want to specify a default cron string to start with
-// }
+interface Props {
+  setCronString?: (val: string) => void; //the cron string itself
+  defaultValue?: string; //if you want to specify a default cron string to start with
+  disableInput?: boolean; //disable the input and only have drop down selectors
+  disableSelectors?: boolean; //disable the selectors and only have the input
+  disableExplainerText?: boolean; //disables the schedule explainer text
+  selectorText?: string; //the text in front of the first selector; can be empty
+  inputText?: string; //the text above the input
+}
 
-export default function NeoCron(): ReactElement {
-  // const { cronString, isValid, defaultCronString } = props;
+export default function NeoCron(props: Props): ReactElement {
+  const {
+    setCronString,
+    defaultValue,
+    disableInput,
+    disableSelectors,
+    disableExplainerText,
+    selectorText,
+    inputText,
+  } = props;
   const updateSchedule = (state: CronState): CronState => {
     const newSchedule = getSchedule(state.array);
     setSchedule(newSchedule);
@@ -26,7 +38,7 @@ export default function NeoCron(): ReactElement {
   };
 
   const getInitialState = (): CronState => {
-    const expression = '* * * * *';
+    const expression = defaultValue ? defaultValue : '* * * * *';
     const array = stringToArray(expression);
     return updateSchedule({
       expression,
@@ -68,6 +80,12 @@ export default function NeoCron(): ReactElement {
     setState(newState);
   };
 
+  useEffect(() => {
+    if (setCronString) {
+      setCronString(state.expression);
+    }
+  }, [state.expression]);
+
   const setError = (error: string) => {
     setState({ ...state, error: error });
   };
@@ -80,25 +98,40 @@ export default function NeoCron(): ReactElement {
 
   return (
     <div className="flex flex-col space-y-6">
-      <CronExpression state={state} setExpression={setExpression} />
-      <div className="flex items-center space-x-3">
-        <div className="flex-1 bg-gray-300 h-[1px]"></div>
-        <span className="text-gray-600 text-sm bg-white px-3">or</span>
-        <div className="flex-1 bg-gray-300 h-[1px]"></div>
-      </div>
-      <ScheduleSelectors
-        setValue={setValue}
-        resetSchedule={resetSchedule}
+      {!disableInput && (
+        <CronExpression
+          state={state}
+          setExpression={setExpression}
+          inputText={inputText}
+        />
+      )}
+      {disableInput ||
+        (disableSelectors ? null : (
+          <div className="flex items-center space-x-3">
+            <div className="flex-1 bg-gray-300 h-[1px]"></div>
+            <span className="text-gray-600 text-sm bg-white px-3">or</span>
+            <div className="flex-1 bg-gray-300 h-[1px]"></div>
+          </div>
+        ))}
+      {!disableSelectors && (
+        <ScheduleSelectors
+          setValue={setValue}
+          resetSchedule={resetSchedule}
+          state={state}
+          resetSelectedValues={resetSelectedValues}
+          setResetSelectedValues={setResetSelectedValues}
+          setError={setError}
+          selectorText={selectorText}
+        />
+      )}
+      <ScheduleExplainer
         state={state}
-        resetSelectedValues={resetSelectedValues}
-        setResetSelectedValues={setResetSelectedValues}
-        setError={setError}
+        disableExplainerText={disableExplainerText}
       />
-      <ScheduleExplainer state={state} />
     </div>
   );
 }
 
 //TODO: update responsiveness
 
-//TODO: fix bug where if you select a value from the beignning and then unselect it it throws an erorr saying that it can't be empty but it should just go back to default all
+//TODO: fix stylings and make styles exportable

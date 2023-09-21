@@ -18,6 +18,7 @@ interface Props {
   resetSelectedValues: boolean;
   setResetSelectedValues: (val: boolean) => void;
   setError: (val: string) => void;
+  selectorText?: string;
 }
 
 const scheduleSelector: ScheduleSelectorObject[] = [
@@ -37,6 +38,7 @@ export default function ScheduleSelectors(props: Props): ReactElement {
     resetSelectedValues,
     setResetSelectedValues,
     setError,
+    selectorText,
   } = props;
   const [selectedSchedule, setSelectedSchedule] = useState<string>('year');
   const units = getUnits();
@@ -76,7 +78,9 @@ export default function ScheduleSelectors(props: Props): ReactElement {
   return (
     <div className="flex flex-col lg:flex-row w-full items-start lg:items-end space-x-3">
       <div className="flex flex-row items-center space-x-3">
-        <div className="whitespace-nowrap text-sm lg:p-0 pl-3">Run every</div>
+        <div className="whitespace-nowrap text-sm lg:p-0 pl-3">
+          {selectorText ? selectorText : 'Run every'}
+        </div>
         <Select onValueChange={(opt: string) => setSelectedSchedule(opt)}>
           <SelectTrigger>
             <SelectValue placeholder={selectedSchedule} />
