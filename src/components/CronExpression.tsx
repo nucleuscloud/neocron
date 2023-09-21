@@ -5,7 +5,7 @@ import { Input } from './ui/input';
 interface Props {
   state: CronState;
   setExpression: (val: string) => void;
-  inputText: string;
+  inputText?: string;
 }
 
 export default function CronExpression(props: Props): ReactElement {

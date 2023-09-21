@@ -5,10 +5,11 @@ import { Alert, AlertDescription } from './ui/alert';
 
 interface Props {
   state: CronState;
+  disableExplainerText?: boolean;
 }
 
 export default function ScheduleExplainer(props: Props): ReactElement {
-  const { state } = props;
+  const { state, disableExplainerText } = props;
   if (state.error !== '') {
     return (
       <div>
@@ -21,18 +22,20 @@ export default function ScheduleExplainer(props: Props): ReactElement {
   } else {
     return (
       <div>
-        <Alert className="bg-green-100 border border-green-500">
-          <AlertDescription>
-            <div className="flex flex-col space-y-2">
-              <div className="flex flex-row items-center space-x-2">
-                <div>
-                  <ClockIcon />
+        {disableExplainerText && (
+          <Alert className="bg-green-100 border border-green-500">
+            <AlertDescription>
+              <div className="flex flex-col space-y-2">
+                <div className="flex flex-row items-center space-x-2">
+                  <div>
+                    <ClockIcon />
+                  </div>
+                  <div>Next run scheduled for: {state.next}</div>
                 </div>
-                <div>Next run scheduled for: {state.next}</div>
               </div>
-            </div>
-          </AlertDescription>
-        </Alert>
+            </AlertDescription>
+          </Alert>
+        )}
       </div>
     );
   }

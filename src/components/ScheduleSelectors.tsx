@@ -18,7 +18,7 @@ interface Props {
   resetSelectedValues: boolean;
   setResetSelectedValues: (val: boolean) => void;
   setError: (val: string) => void;
-  selectorText: string;
+  selectorText?: string;
 }
 
 const scheduleSelector: ScheduleSelectorObject[] = [
