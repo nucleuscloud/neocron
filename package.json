@@ -1,6 +1,6 @@
 {
   "name": "neocron",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": false,
   "main": "dist/src/Neocron.js",
   "export": "dist/src/Neocron.js",
