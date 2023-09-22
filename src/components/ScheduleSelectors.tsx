@@ -78,9 +78,7 @@ export default function ScheduleSelectors(props: Props): ReactElement {
   return (
     <div className="selector-container">
       <div className="flex-container-row">
-        <div className="selector-text">
-          {selectorText ? selectorText : 'Run every'}
-        </div>
+        <div className="selector-text">{selectorText}</div>
         <Select onValueChange={(opt: string) => setSelectedSchedule(opt)}>
           <SelectTrigger>
             <SelectValue placeholder={selectedSchedule} />

@@ -39,7 +39,7 @@ export default function NeoCron(props: Props): ReactElement {
   };
 
   const getInitialState = (): CronState => {
-    const expression = defaultValue ? defaultValue : '* * * * *';
+    const expression = defaultValue;
     const array = stringToArray(expression);
     return updateSchedule({
       expression,

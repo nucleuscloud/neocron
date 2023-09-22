@@ -12,9 +12,7 @@ export default function CronExpression(props: Props): ReactElement {
   const { state, setExpression, inputText } = props;
   return (
     <div>
-      <div className="input-text">
-        {inputText ? inputText : 'Set a schedule'}
-      </div>
+      <div className="input-text">{inputText}</div>
       <Input
         type="text"
         id="expression"
