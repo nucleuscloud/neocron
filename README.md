@@ -6,9 +6,11 @@ NeoCron is a modern, lightweight cron scheduling react component that is styled 
 
 ## Getting started
 
-1. Clone down the repo
-2. install all dependencies using NPM
-3. run npm run dev to run the application locally on port localhost:3000
+Download the NeoCron npm package
+
+```bash
+npm i necron
+```
 
 
 # Usage
@@ -16,7 +18,7 @@ NeoCron is a modern, lightweight cron scheduling react component that is styled 
 ```javascript
 
 import { Cron } from 'react-js-cron'
-import 'react-js-cron/dist/styles.css'
+import 'neocron/dist/src/globals.css'
 
 export function App() {
   const [value, setValue] = useState('30 5 * * 1,6')
