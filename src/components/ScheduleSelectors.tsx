@@ -56,8 +56,8 @@ export default function ScheduleSelectors(props: Props): ReactElement {
       }
 
       return (
-        <div key={opt.name} className="flex flex-row items-center space-x-3">
-          <div className="pt-4 text-sm">{opt.prefix}</div>
+        <div key={opt.name} className="flex-container-row">
+          <div className="prefix-text">{opt.prefix}</div>
           <div>
             <MultiSelect
               options={unit}
@@ -76,9 +76,9 @@ export default function ScheduleSelectors(props: Props): ReactElement {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row w-full items-start lg:items-end space-x-3">
-      <div className="flex flex-row items-center space-x-3">
-        <div className="whitespace-nowrap text-sm lg:p-0 pl-3">
+    <div className="selector-container">
+      <div className="flex-container-row">
+        <div className="selector-text">
           {selectorText ? selectorText : 'Run every'}
         </div>
         <Select onValueChange={(opt: string) => setSelectedSchedule(opt)}>

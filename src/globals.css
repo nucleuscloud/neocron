@@ -105,6 +105,18 @@
   @apply text-sm pb-2;
 }
 
+.prefix-text {
+  @apply pt-4 text-sm;
+}
+
+.selector-text {
+  @apply whitespace-nowrap text-sm lg:p-0 pl-3;
+}
+
+.selector-container {
+  @apply flex flex-col lg:flex-row w-full items-start lg:items-end space-x-3;
+}
+
 /*
 styles the expression input
 deafult styles follow the input component from shadcn
