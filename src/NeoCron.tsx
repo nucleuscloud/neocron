@@ -2,7 +2,7 @@
 import { DateTime } from 'luxon';
 import { ReactElement, useEffect, useState } from 'react';
 import CronExpression from './components/CronExpression';
-import ScheduleExplainer from './components/Schedule';
+import ScheduleExplainer from './components/ScheduleExplainer';
 import ScheduleSelectors from './components/ScheduleSelectors';
 import './globals.css';
 import { arrayToString, stringToArray } from './lib/part';
@@ -134,5 +134,3 @@ export default function NeoCron(props: Props): ReactElement {
 }
 
 //TODO: update responsiveness
-
-//TODO: fix stylings and make styles exportable

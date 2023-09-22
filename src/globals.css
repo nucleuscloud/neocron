@@ -89,6 +89,35 @@
   @apply flex items-center space-x-3;
 }
 
+.flex-container-row {
+  @apply flex flex-row items-center space-x-3;
+}
+
+.flex-container-col {
+  @apply flex flex-col space-y-3;
+}
+
 .neocron-container {
   @apply flex flex-col space-y-6;
+}
+
+.input-text {
+  @apply text-sm pb-2;
+}
+
+/*
+styles the expression input
+deafult styles follow the input component from shadcn
+https://ui.shadcn.com/docs/components/input
+.cron-input {
+}
+*/
+
+/*
+styles the schedule explainer alert
+deafult styles follow the alert component from shadcn
+https://ui.shadcn.com/docs/components/alert
+*/
+.success-alert {
+  @apply bg-green-100 border border-green-500;
 }
