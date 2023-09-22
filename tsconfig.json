@@ -15,6 +15,6 @@
     "incremental": true,
     "declaration": true,
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "stories/**/*.ts", "src/*.css"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "stories/**/*.ts"],
   "exclude": ["node_modules"]
 }
