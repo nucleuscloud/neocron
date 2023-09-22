@@ -9,7 +9,7 @@ NeoCron is a modern, lightweight cron scheduling react component that is styled 
 Download the NeoCron npm package
 
 ```bash
-npm i necron
+npm i neocron
 ```
 
 
@@ -17,7 +17,7 @@ npm i necron
 
 ```javascript
 
-import { Cron } from 'react-js-cron'
+import { Cron } from 'neocron'
 import 'neocron/dist/src/globals.css'
 
 export function App() {
