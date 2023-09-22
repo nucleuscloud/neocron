@@ -117,19 +117,46 @@
   @apply flex flex-col lg:flex-row w-full items-start lg:items-end space-x-3;
 }
 
-/*
-styles the expression input
-deafult styles follow the input component from shadcn
-https://ui.shadcn.com/docs/components/input
-.cron-input {
-}
-*/
-
-/*
-styles the schedule explainer alert
-deafult styles follow the alert component from shadcn
-https://ui.shadcn.com/docs/components/alert
-*/
 .success-alert {
   @apply bg-green-100 border border-green-500;
+}
+
+.commanditem {
+  @apply text-xs text-muted-foreground;
+}
+
+.all-badges {
+  @apply text-center font-light text-gray-300 text-sm;
+}
+
+.multiselect-container {
+  @apply flex flex-col items-center;
+}
+
+.multiselect-header-text {
+  @apply text-xs text-center;
+}
+
+.multi-select-button {
+  @apply flex flex-wrap items-start max-w-sm h-auto text-foreground;
+}
+
+.multiselect-badges {
+  @apply flex flex-wrap items-start;
+}
+
+.multiselect-chervon {
+  @apply ml-2 h-4 w-4 shrink-0 opacity-50;
+}
+
+.popover-content-container {
+  @apply w-[400px] p-0;
+}
+
+.multiselect-dropdown {
+  @apply max-h-[300px] overflow-auto grid grid-cols-5 p-2;
+}
+
+.multiselect-selected-value {
+  @apply rounded-sm bg-green-200 aria-selected:bg-green-200;
 }
