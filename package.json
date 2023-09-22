@@ -5,6 +5,12 @@
   "main": "dist/src/Neocron.js",
   "export": "dist/src/Neocron.js",
   "types": "dist/src/Neocron.d.ts",
+  "author": "Evis Drenova",
+  "description": "A lightweight, modern chron editor",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nucleuscloud/neocron.git"
+  },
   "files": [
     "dist/src"
   ],
