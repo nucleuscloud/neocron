@@ -2,8 +2,9 @@
 import { DateTime } from 'luxon';
 import { ReactElement, useEffect, useState } from 'react';
 import CronExpression from './components/CronExpression';
-import ScheduleExplainer from './components/Schedule';
+import ScheduleExplainer from './components/ScheduleExplainer';
 import ScheduleSelectors from './components/ScheduleSelectors';
+import './globals.css';
 import { arrayToString, stringToArray } from './lib/part';
 import { Schedule, getSchedule } from './lib/schedule';
 import { CronState, ValuePayload } from './types';
@@ -20,13 +21,13 @@ interface Props {
 
 export default function NeoCron(props: Props): ReactElement {
   const {
-    setCronString,
-    defaultValue,
-    disableInput,
-    disableSelectors,
-    disableExplainerText,
-    selectorText,
-    inputText,
+    setCronString = () => {},
+    defaultValue = '* * * * *',
+    disableInput = false,
+    disableSelectors = false,
+    disableExplainerText = false,
+    selectorText = 'Run every',
+    inputText = 'Set a schedule',
   } = props;
   const updateSchedule = (state: CronState): CronState => {
     const newSchedule = getSchedule(state.array);
@@ -38,7 +39,7 @@ export default function NeoCron(props: Props): ReactElement {
   };
 
   const getInitialState = (): CronState => {
-    const expression = defaultValue ? defaultValue : '* * * * *';
+    const expression = defaultValue;
     const array = stringToArray(expression);
     return updateSchedule({
       expression,
@@ -97,7 +98,7 @@ export default function NeoCron(props: Props): ReactElement {
   };
 
   return (
-    <div className="flex flex-col space-y-6">
+    <div className="neocron-container">
       {!disableInput && (
         <CronExpression
           state={state}
@@ -107,10 +108,10 @@ export default function NeoCron(props: Props): ReactElement {
       )}
       {disableInput ||
         (disableSelectors ? null : (
-          <div className="flex items-center space-x-3">
-            <div className="flex-1 bg-gray-300 h-[1px]"></div>
-            <span className="text-gray-600 text-sm bg-white px-3">or</span>
-            <div className="flex-1 bg-gray-300 h-[1px]"></div>
+          <div className="flex-container">
+            <div className="divider-line"></div>
+            <span className="gray-text">or</span>
+            <div className="divider-line"></div>
           </div>
         ))}
       {!disableSelectors && (
@@ -133,5 +134,3 @@ export default function NeoCron(props: Props): ReactElement {
 }
 
 //TODO: update responsiveness
-
-//TODO: fix stylings and make styles exportable

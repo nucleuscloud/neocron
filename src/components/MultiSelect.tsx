@@ -112,7 +112,7 @@ export default function MultiSelect(props: Props) {
   };
 
   //renders badges in the combobox and aggregates ranges for days, hours and minutes
-  //while leaving months and weekdays alone
+  //while leaving months and weekdays alone since those have text in them
   const renderBadges = () => {
     if (options?.alt) {
       return selectedValues.length > 0 ? (
@@ -124,7 +124,7 @@ export default function MultiSelect(props: Props) {
             </Badge>
           ))
       ) : (
-        <div className="text-center font-light text-gray-300 text-sm">All</div>
+        <div className="all-badges">All</div>
       );
     } else {
       return selectedValues.length > 0 ? (
@@ -136,31 +136,31 @@ export default function MultiSelect(props: Props) {
           </Badge>
         ))
       ) : (
-        <div className="text-center font-light text-gray-300 text-sm">All</div>
+        <div className="all-badges">All</div>
       );
     }
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="text-xs text-center">{options.name}(s)</div>
+    <div className="multiselect-container">
+      <div className="multiselect-header-text">{options.name}(s)</div>
       <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={openCombobox}
-            className="flex flex-wrap items-start max-w-sm h-auto text-foreground"
+            className="multi-select-button"
           >
-            <div className="flex flex-row">
-              <div className="flex flex-wrap items-start">{renderBadges()}</div>
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <div className="flex-container-row">
+              <div className="multiselect-badges">{renderBadges()}</div>
+              <ChevronsUpDown className="multiselect-chervon" />
             </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[400px] p-0">
+        <PopoverContent className="popover-content-container">
           <Command loop>
-            <div className="max-h-[300px] overflow-auto grid grid-cols-5 p-2">
+            <div className="multiselect-dropdown">
               {spreadOption(options).map((option) => {
                 const isActive = selectedValues?.includes(option);
                 return (
@@ -170,8 +170,7 @@ export default function MultiSelect(props: Props) {
                     onSelect={() => toggleOptions(option)}
                     className={cn(
                       'flex-1',
-                      isActive &&
-                        'rounded-sm bg-green-200 aria-selected:bg-green-200'
+                      isActive && 'multiselect-selected-value'
                     )}
                   >
                     <div>{formatOption(option)}</div>
@@ -181,10 +180,7 @@ export default function MultiSelect(props: Props) {
             </div>
             <CommandSeparator alwaysRender />
             <CommandGroup>
-              <CommandItem
-                className="text-xs text-muted-foreground"
-                onSelect={handleSelectAll}
-              >
+              <CommandItem className="commanditem" onSelect={handleSelectAll}>
                 {selectAll ? 'Unselect All' : 'Select All'}
               </CommandItem>
             </CommandGroup>

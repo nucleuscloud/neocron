@@ -12,12 +12,11 @@ export default function CronExpression(props: Props): ReactElement {
   const { state, setExpression, inputText } = props;
   return (
     <div>
-      <label htmlFor="expression" className="input-label">
-        {inputText ? inputText : 'Cron expression'}
-      </label>
+      <div className="input-text">{inputText}</div>
       <Input
         type="text"
         id="expression"
+        className="cron-input"
         onChange={(e) => setExpression(e.target.value)}
         value={state.expression}
       />
