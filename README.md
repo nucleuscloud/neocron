@@ -4,9 +4,11 @@
 
 NeoCron is a modern, lightweight cron scheduling react component that is styled using tailwind. It is influenced and built upon [cron-converter](https://github.com/roccivic/cron-converter) project.
 
-## Getting started
+## Installation
 
-Download the NeoCron npm package
+Make sure that you have these dependencies in your project:
+1. react (>=18.2.0)
+2. tailwindcss(>=3.3.3)
 
 ```bash
 npm i neocron
@@ -17,7 +19,7 @@ npm i neocron
 
 ```javascript
 
-import { Cron } from 'neocron'
+import  Neocron from 'neocron'
 import 'neocron/dist/src/globals.css'
 
 export function App() {
