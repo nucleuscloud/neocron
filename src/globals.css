@@ -76,3 +76,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+.divider-line {
+  @apply flex-1 bg-gray-300 h-[1px];
+}
+
+.gray-text {
+  @apply text-gray-600 text-sm bg-white px-3;
+}
+
+.flex-container {
+  @apply flex items-center space-x-3;
+}
+
+.neocron-container {
+  @apply flex flex-col space-y-6;
+}
