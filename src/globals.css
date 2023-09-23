@@ -23,7 +23,7 @@
 }
 
 .neocron-container {
-  @apply flex flex-col space-y-6;
+  @apply flex flex-col  space-y-6 max-w-[max-content];
 }
 
 .input-text {
