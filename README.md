@@ -16,6 +16,7 @@ npm i neocron
 
 
 # Usage
+1. Include the neocron package in your app.tsx folder. 
 
 ```javascript
 
@@ -28,7 +29,31 @@ export function App() {
   return <Neocron defaultValue={value} setValue={setValue} />
 }
 ```
+2. Import the shadcn components by updating your tailwind.config.js folder and adding in this path `./node_modules/neocron/dist/src/**/*.{js,css}",` to the content array like so:
 
+```js
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/neocron/dist/src/**/*.{js,css}", //adding this to the file makes the shadcn components work
+  ],
+  theme: {
+    extend: {
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+    },
+  },
+  plugins: [],
+};
+export default config;
+```
 # Props
 
 | Prop Name            | Description                                                        |
