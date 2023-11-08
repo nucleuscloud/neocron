@@ -5,14 +5,12 @@ import { Input } from './ui/input';
 interface Props {
   state: CronState;
   setExpression: (val: string) => void;
-  inputText?: string;
 }
 
 export default function CronExpression(props: Props): ReactElement {
-  const { state, setExpression, inputText } = props;
+  const { state, setExpression } = props;
   return (
     <div>
-      <div className="input-text">{inputText}</div>
       <Input
         type="text"
         id="expression"

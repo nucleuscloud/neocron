@@ -16,7 +16,6 @@ interface Props {
   disableSelectors?: boolean; //disable the selectors and only have the input
   disableExplainerText?: boolean; //disables the schedule explainer text
   selectorText?: string; //the text in front of the first selector; can be empty
-  inputText?: string; //the text above the input
 }
 
 export default function NeoCron(props: Props): ReactElement {
@@ -27,7 +26,6 @@ export default function NeoCron(props: Props): ReactElement {
     disableSelectors = false,
     disableExplainerText = false,
     selectorText = 'Run every',
-    inputText = 'Set a schedule',
   } = props;
   const updateSchedule = (state: CronState): CronState => {
     const newSchedule = getSchedule(state.array);
@@ -100,11 +98,7 @@ export default function NeoCron(props: Props): ReactElement {
   return (
     <div className="neocron-container">
       {!disableInput && (
-        <CronExpression
-          state={state}
-          setExpression={setExpression}
-          inputText={inputText}
-        />
+        <CronExpression state={state} setExpression={setExpression} />
       )}
       {disableInput ||
         (disableSelectors ? null : (
@@ -132,5 +126,3 @@ export default function NeoCron(props: Props): ReactElement {
     </div>
   );
 }
-
-//TODO: update responsiveness

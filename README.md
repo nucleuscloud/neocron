@@ -64,7 +64,6 @@ export default config;
 | `disableSelectors`   | Disable the selectors and only have the input                      |
 | `disableExplainerText`| Disables the schedule explainer text                               |
 | `selectorText`       | The text in front of the first selector; can be empty              |
-| `inputText`          | The text above the input                                           |
 
 
 ## Styling
