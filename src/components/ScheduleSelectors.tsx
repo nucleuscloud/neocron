@@ -94,7 +94,7 @@ export default function ScheduleSelectors(props: Props): ReactElement {
       </div>
       {handleSelectors()}
       <div>
-        <Button onClick={resetSchedule} variant="destructive">
+        <Button type="button" onClick={resetSchedule} variant="destructive">
           Reset
         </Button>
       </div>
