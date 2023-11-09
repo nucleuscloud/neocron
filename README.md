@@ -26,7 +26,7 @@ import 'neocron/dist/src/globals.css'
 export function App() {
   const [value, setValue] = useState('30 5 * * 1,6')
 
-  return <Neocron defaultValue={value} setValue={setValue} />
+  return <Neocron defaultValue={value} setCronString={setValue} />
 }
 ```
 2. Import the shadcn components by updating your tailwind.config.js folder and adding in this path `./node_modules/neocron/dist/src/**/*.{js,css}",` to the content array like so:
