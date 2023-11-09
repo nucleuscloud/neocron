@@ -1,15 +1,15 @@
 import { ReactElement, useState } from 'react';
+import { getUnits } from '../lib/units';
+import { CronState, ScheduleSelectorObject, ValuePayload } from '../types';
+import MultiSelect from './MultiSelect';
+import { Button } from './ui/button';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../components/ui/select';
-import { getUnits } from '../lib/units';
-import { CronState, ScheduleSelectorObject, ValuePayload } from '../types';
-import MultiSelect from './MultiSelect';
-import { Button } from './ui/button';
+} from './ui/select';
 
 interface Props {
   setValue: (val: ValuePayload) => void;
@@ -61,9 +61,7 @@ export default function ScheduleSelectors(props: Props): ReactElement {
           <div>
             <MultiSelect
               options={unit}
-              onChange={(a, e) => {
-                setValue({ index: a, values: e.map(Number) });
-              }}
+              setValue={setValue}
               setError={setError}
               state={state}
               resetSelectedValues={resetSelectedValues}
