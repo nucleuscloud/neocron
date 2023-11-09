@@ -1,41 +1,42 @@
 'use client';
 import { ChevronsUpDown } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { Button } from '../components/ui/button';
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandSeparator,
-} from '../components/ui/command';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '../components/ui/popover';
 import { createRanges, isFull, stringToArray } from '../lib/part';
 import { getUnits, spreadOption } from '../lib/units';
 import { cn } from '../lib/utils';
 import { CronState, Unit } from '../types';
 import { Badge } from './ui/badge';
+import { Button } from './ui/button';
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandSeparator,
+} from './ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+
+interface SetValueObject {
+  index: number;
+  values: number[];
+}
 
 interface Props {
   options: Unit;
-  onChange: (ind: number, opt: string[]) => void;
   resetSelectedValues: boolean;
   setResetSelectedValues: (val: boolean) => void;
   state: CronState;
   setError: (val: string) => void;
+  setValue: (val: SetValueObject) => void;
 }
 
 export default function MultiSelect(props: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const {
     options,
-    onChange,
     resetSelectedValues,
     setResetSelectedValues,
     state,
+    setValue,
     setError,
   } = props;
   const [openCombobox, setOpenCombobox] = useState(false);
@@ -52,13 +53,20 @@ export default function MultiSelect(props: Props) {
     }
   }, [resetSelectedValues, setResetSelectedValues]);
 
+  useEffect(() => {
+    if (selectedValues.length > 0) {
+      setValue({ index: ind, values: selectedValues.map(Number) });
+    }
+  }, [selectedValues, setValue, ind]);
+
   const toggleOptions = (option: string) => {
     setSelectedValues((currentOption) => {
+      //checcks to see if the curent values includes what the user just selected
+      // if so, then it adds it, otherwise it filters it out
+      //then in the onchange, it updates the options with it
       const updatedOptions = !currentOption.includes(option)
         ? [...currentOption, option]
         : currentOption.filter((curr) => curr !== option);
-      onChange(ind, updatedOptions); // Notify parent about the change.
-
       return updatedOptions;
     });
 
@@ -89,11 +97,11 @@ export default function MultiSelect(props: Props) {
       setSelectAll(true);
       const allOptions = spreadOption(options);
       setSelectedValues(allOptions);
-      onChange(ind, allOptions);
+      setValue({ index: ind, values: allOptions.map(Number) });
     } else {
       setSelectAll(false);
       setSelectedValues([]);
-      onChange(0, []); // Notify parent about the change.
+      setValue({ index: 0, values: [] });
     }
   };
 
@@ -168,6 +176,7 @@ export default function MultiSelect(props: Props) {
                     key={option}
                     value={option}
                     onSelect={() => toggleOptions(option)}
+                    // onSelect={() => setOption(option)}
                     className={cn(
                       'flex-1',
                       isActive && 'multiselect-selected-value'
