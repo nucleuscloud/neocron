@@ -18,12 +18,6 @@ export const units: Unit[] = [
     max: 31,
   },
   {
-    name: 'weekday',
-    min: 0,
-    max: 6,
-    alt: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-  },
-  {
     name: 'month',
     min: 1,
     max: 12,
@@ -41,6 +35,12 @@ export const units: Unit[] = [
       'Nov',
       'Dec',
     ],
+  },
+  {
+    name: 'weekday',
+    min: 0,
+    max: 6,
+    alt: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   },
 ];
 
