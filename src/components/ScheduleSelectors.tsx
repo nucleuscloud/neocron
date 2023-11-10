@@ -12,9 +12,9 @@ import {
 } from './ui/select';
 
 interface Props {
-  setValue: (val: ValuePayload) => void;
+  constructCronState: (val: ValuePayload) => void;
   resetSchedule: () => void;
-  state: CronState;
+  cronState: CronState;
   resetSelectedValues: boolean;
   setResetSelectedValues: (val: boolean) => void;
   setError: (val: string) => void;
@@ -23,8 +23,8 @@ interface Props {
 
 const scheduleSelector: ScheduleSelectorObject[] = [
   { name: 'year', prefix: 'on' },
-  { name: 'month', prefix: 'on' },
   { name: 'weekday', prefix: 'on' },
+  { name: 'month', prefix: 'on' },
   { name: 'day', prefix: 'and' },
   { name: 'hour', prefix: 'at' },
   { name: 'minute', prefix: ':' },
@@ -32,9 +32,9 @@ const scheduleSelector: ScheduleSelectorObject[] = [
 
 export default function ScheduleSelectors(props: Props): ReactElement {
   const {
-    setValue,
+    constructCronState,
     resetSchedule,
-    state,
+    cronState,
     resetSelectedValues,
     setResetSelectedValues,
     setError,
@@ -58,16 +58,14 @@ export default function ScheduleSelectors(props: Props): ReactElement {
       return (
         <div key={opt.name} className="flex-container-row">
           <div className="prefix-text">{opt.prefix}</div>
-          <div>
-            <MultiSelect
-              options={unit}
-              setValue={setValue}
-              setError={setError}
-              state={state}
-              resetSelectedValues={resetSelectedValues}
-              setResetSelectedValues={setResetSelectedValues}
-            />
-          </div>
+          <MultiSelect
+            options={unit}
+            constructCronState={constructCronState}
+            setError={setError}
+            cronState={cronState}
+            resetSelectedValues={resetSelectedValues}
+            setResetSelectedValues={setResetSelectedValues}
+          />
         </div>
       );
     });

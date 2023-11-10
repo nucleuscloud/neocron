@@ -9,9 +9,10 @@ import { arrayToString, stringToArray } from './lib/part';
 import { Schedule, getSchedule } from './lib/schedule';
 import { CronState, ValuePayload } from './types';
 
+const defaultCronString = '* * * * *';
+
 interface Props {
-  setCronString?: (val: string) => void; //the cron string itself
-  defaultValue?: string; //if you want to specify a default cron string to start with
+  setCronString?: (val: string) => void; //updates the cron string itself
   disableInput?: boolean; //disable the input and only have drop down selectors
   disableSelectors?: boolean; //disable the selectors and only have the input
   disableExplainerText?: boolean; //disables the schedule explainer text
@@ -21,12 +22,12 @@ interface Props {
 export default function NeoCron(props: Props): ReactElement {
   const {
     setCronString = () => {},
-    defaultValue = '* * * * *',
     disableInput = false,
     disableSelectors = false,
     disableExplainerText = false,
     selectorText = 'Run every',
   } = props;
+
   const updateSchedule = (state: CronState): CronState => {
     const newSchedule = getSchedule(state.array);
     setSchedule(newSchedule);
@@ -37,68 +38,69 @@ export default function NeoCron(props: Props): ReactElement {
   };
 
   const getInitialState = (): CronState => {
-    const expression = defaultValue;
-    const array = stringToArray(expression);
     return updateSchedule({
-      expression,
-      array,
+      expression: defaultCronString,
+      array: stringToArray(defaultCronString),
       error: '',
       next: '',
     });
   };
 
   const [schedule, setSchedule] = useState<Schedule>(
-    new Schedule(stringToArray('* * * * *'))
+    new Schedule(stringToArray(defaultCronString))
   );
-  const [state, setState] = useState<CronState>(getInitialState);
+  const [cronState, setCronState] = useState<CronState>(getInitialState);
   const [resetSelectedValues, setResetSelectedValues] =
     useState<boolean>(false);
 
   const setExpression = (expression: string) => {
-    let newState: CronState = { ...state, expression, error: '' };
+    let newState: CronState = { ...cronState, expression, error: '' };
     try {
       newState.array = stringToArray(expression);
       newState = updateSchedule(newState);
     } catch (e: any) {
       newState.error = e.message;
     }
-    setState(newState);
+    setCronState(newState);
   };
 
-  const setValue = (payload: ValuePayload) => {
-    const newArray = [...state.array];
+  const constructCronState = (payload: ValuePayload) => {
+    const newArray = [...cronState.array];
     newArray[payload.index] = payload.values;
-
-    let newState: CronState = { ...state, array: newArray, error: '' };
+    let newState: CronState = { ...cronState, array: newArray, error: '' };
     try {
       newState.expression = arrayToString(newState.array);
       newState = updateSchedule(newState);
     } catch (e: any) {
       newState.error = e.message;
     }
-    setState(newState);
+
+    if (newState.expression !== cronState.expression) {
+      setCronState(newState);
+    }
   };
 
   useEffect(() => {
     if (setCronString) {
-      setCronString(state.expression);
+      setCronString(cronState.expression);
     }
-  }, [state.expression]);
+  }, [cronState.expression]);
 
   const setError = (error: string) => {
-    setState({ ...state, error: error });
+    setCronState({ ...cronState, error: error });
   };
 
   const resetSchedule = () => {
-    schedule.reset;
-    setState(getInitialState());
+    schedule.reset();
+    const initSchedule = getInitialState();
+    setCronState(initSchedule);
     setResetSelectedValues(true);
   };
 
   return (
     <div className="neocron-container">
       {!disableInput && (
-        <CronExpression state={state} setExpression={setExpression} />
+        <CronExpression cronState={cronState} setExpression={setExpression} />
       )}
       {disableInput ||
         (disableSelectors ? null : (
@@ -110,9 +112,9 @@ export default function NeoCron(props: Props): ReactElement {
         ))}
       {!disableSelectors && (
         <ScheduleSelectors
-          setValue={setValue}
+          constructCronState={constructCronState}
           resetSchedule={resetSchedule}
-          state={state}
+          cronState={cronState}
           resetSelectedValues={resetSelectedValues}
           setResetSelectedValues={setResetSelectedValues}
           setError={setError}
@@ -120,7 +122,7 @@ export default function NeoCron(props: Props): ReactElement {
         />
       )}
       <ScheduleExplainer
-        state={state}
+        state={cronState}
         disableExplainerText={disableExplainerText}
       />
     </div>

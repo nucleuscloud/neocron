@@ -24,9 +24,9 @@ interface Props {
   options: Unit;
   resetSelectedValues: boolean;
   setResetSelectedValues: (val: boolean) => void;
-  state: CronState;
+  cronState: CronState;
   setError: (val: string) => void;
-  setValue: (val: SetValueObject) => void;
+  constructCronState: (val: SetValueObject) => void;
 }
 
 export default function MultiSelect(props: Props) {
@@ -35,8 +35,8 @@ export default function MultiSelect(props: Props) {
     options,
     resetSelectedValues,
     setResetSelectedValues,
-    state,
-    setValue,
+    cronState,
+    constructCronState,
     setError,
   } = props;
   const [openCombobox, setOpenCombobox] = useState(false);
@@ -53,11 +53,30 @@ export default function MultiSelect(props: Props) {
     }
   }, [resetSelectedValues, setResetSelectedValues]);
 
+  //this handles converting the cron expression to the selected values if a user types in a string first
+  //the if(!isFull){...}only updates the values in the UI if the user has changed it otherwise leaves it
+  //this is to prevent the case where the base cron string is ***** and it selects everything in the drop down
+  useEffect(() => {
+    try {
+      const arr = stringToArray(cronState.expression); //prints the number[][] of all selectors
+      const allUnits = getUnits(); //get all units so we can find the index of this selectors unit
+      const index = allUnits.findIndex((unit) => unit.name == options.name);
+
+      if (arr && Array.isArray(arr)) {
+        if (!isFull(arr[index], options)) {
+          setSelectedValues(arr[index].map(String));
+        }
+      }
+    } catch (e: any) {
+      setError(e.message);
+    }
+  }, [cronState, options]);
+
   useEffect(() => {
     if (selectedValues.length > 0) {
-      setValue({ index: ind, values: selectedValues.map(Number) });
+      constructCronState({ index: ind, values: selectedValues.map(Number) });
     }
-  }, [selectedValues, setValue, ind]);
+  }, [selectedValues, ind]);
 
   const toggleOptions = (option: string) => {
     setSelectedValues((currentOption) => {
@@ -73,35 +92,16 @@ export default function MultiSelect(props: Props) {
     inputRef?.current?.focus();
   };
 
-  //this handles converting the cron expression to the selected values if a user types in a string first
-  //the if(!isFull){...}only updates the values in the UI if the user has changed it otherwise leaves it
-  //this is to prevent the case where the base cron string is ***** and it selects everything in the drop down
-  useEffect(() => {
-    try {
-      const arr = stringToArray(state.expression); //prints the number[][] array of all selectors
-      const allUnits = getUnits(); //get all units so we can find the index of this selectors unit
-      const index = allUnits.findIndex((unit) => unit.name == options.name);
-
-      if (arr && Array.isArray(arr)) {
-        if (!isFull(arr[index], options)) {
-          setSelectedValues(arr[index].map(String));
-        }
-      }
-    } catch (e: any) {
-      setError(e.message);
-    }
-  }, [state]);
-
   const handleSelectAll = () => {
     if (!selectAll) {
       setSelectAll(true);
       const allOptions = spreadOption(options);
       setSelectedValues(allOptions);
-      setValue({ index: ind, values: allOptions.map(Number) });
+      constructCronState({ index: ind, values: allOptions.map(Number) });
     } else {
       setSelectAll(false);
       setSelectedValues([]);
-      setValue({ index: 0, values: [] });
+      constructCronState({ index: 0, values: [] });
     }
   };
 
@@ -176,10 +176,10 @@ export default function MultiSelect(props: Props) {
                     key={option}
                     value={option}
                     onSelect={() => toggleOptions(option)}
-                    // onSelect={() => setOption(option)}
                     className={cn(
                       'flex-1',
-                      isActive && 'multiselect-selected-value'
+                      isActive && 'multiselect-selected-value',
+                      !isActive && 'multiselect-unselected-value'
                     )}
                   >
                     <div>{formatOption(option)}</div>
