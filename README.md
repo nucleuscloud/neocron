@@ -15,7 +15,7 @@ npm i neocron
 ```
 
 
-# Usage
+## Usage
 1. Include the neocron package in your app.tsx folder. 
 
 ```javascript
@@ -54,7 +54,7 @@ const config: Config = {
 };
 export default config;
 ```
-# Props
+## Props
 
 | Prop Name            | Description                                                        |
 |----------------------|--------------------------------------------------------------------|
