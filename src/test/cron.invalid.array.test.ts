@@ -1,24 +1,24 @@
-import { arrayToString } from "../lib/part";
+import { arrayToString } from '../lib/part';
 
 const invalidCron = [
   {
     array: [],
-    error: "Invalid cron array",
+    error: 'Invalid cron array',
   },
   {
     array: [[], [], [], [], []],
-    error: "Empty interval value for minute",
+    error: 'Empty interval value for minute',
   },
   {
     array: [0, [], [], [], []] as number[][],
-    error: "Invalid cron array",
+    error: 'Invalid cron array',
   },
   {
-    array: [["a"], [1], [1], [1], [1]] as number[][],
+    array: [['a'], [1], [1], [1], [1]] as number[][],
     error: 'Invalid value "a" for minute',
   },
   {
-    array: [["12e5"], [1], [1], [1], [1]] as number[][],
+    array: [['12e5'], [1], [1], [1], [1]] as number[][],
     error: 'Invalid value "12e5" for minute',
   },
   {
@@ -35,7 +35,7 @@ const invalidCron = [
   },
 ];
 
-describe("Should throw on invalid cron array", function () {
+describe('Should throw on invalid cron array', function () {
   invalidCron.forEach(function (invalid) {
     test(invalid.array.toString(), function () {
       expect(() => arrayToString(invalid.array)).toThrow(invalid.error);
