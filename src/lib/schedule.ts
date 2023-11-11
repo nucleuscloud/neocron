@@ -65,6 +65,12 @@ export class Schedule {
     this.date = findDate(this.arr, this.date, false);
     return this.date;
   }
+
+  prev() {
+    this.pristine = false;
+    this.date = findDate(this.arr, this.date, true);
+    return this.date;
+  }
 }
 
 /**

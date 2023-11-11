@@ -39,7 +39,7 @@
 }
 
 .success-alert {
-  @apply bg-green-100 border border-green-500;
+  @apply bg-green-100 border border-green-500 shadow-sm;
 }
 
 .commanditem {
