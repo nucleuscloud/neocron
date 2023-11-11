@@ -22,10 +22,6 @@
   @apply flex flex-col space-y-3;
 }
 
-.neocron-container {
-  @apply flex flex-col  space-y-6 max-w-[max-content];
-}
-
 .input-text {
   @apply text-sm pb-2;
 }

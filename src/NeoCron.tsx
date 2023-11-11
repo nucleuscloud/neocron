@@ -98,7 +98,7 @@ export default function NeoCron(props: Props): ReactElement {
   };
 
   return (
-    <div className="neocron-container">
+    <div>
       {!disableInput && (
         <CronExpression cronState={cronState} setExpression={setExpression} />
       )}
