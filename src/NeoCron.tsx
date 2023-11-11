@@ -98,7 +98,7 @@ export default function NeoCron(props: Props): ReactElement {
   };
 
   return (
-    <div>
+    <div className="space-y-6">
       {!disableInput && (
         <CronExpression cronState={cronState} setExpression={setExpression} />
       )}
