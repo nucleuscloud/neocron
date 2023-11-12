@@ -9,10 +9,11 @@ import { arrayToString, stringToArray } from "./lib/part";
 import { Schedule, getSchedule } from "./lib/schedule";
 import { CronState, ValuePayload } from "./types";
 
-const defaultCronString = "* * * * *";
+const baseCron = "* * * * *";
 
 interface Props {
-  cronString?: string;
+  cronString: string;
+  defaultCronString?: string;
   setCronString?: (val: string) => void; //updates the cron string itself
   disableInput?: boolean; //disable the input and only have drop down selectors
   disableSelectors?: boolean; //disable the selectors and only have the input
@@ -23,6 +24,7 @@ interface Props {
 export default function NeoCron(props: Props): ReactElement {
   const {
     cronString,
+    defaultCronString,
     setCronString = () => {},
     disableInput = false,
     disableSelectors = false,
@@ -42,7 +44,7 @@ export default function NeoCron(props: Props): ReactElement {
   const getInitialState = (): CronState => {
     const cs =
       cronString !== defaultCronString
-        ? cronString ?? "* * * * *"
+        ? cronString ?? baseCron
         : defaultCronString;
     return updateSchedule({
       expression: cs,
@@ -53,7 +55,7 @@ export default function NeoCron(props: Props): ReactElement {
   };
 
   const [schedule, setSchedule] = useState<Schedule>(
-    new Schedule(stringToArray(defaultCronString))
+    new Schedule(stringToArray(defaultCronString ?? baseCron))
   );
   const [cronState, setCronState] = useState<CronState>(getInitialState);
   const [resetSelectedValues, setResetSelectedValues] =
@@ -98,8 +100,14 @@ export default function NeoCron(props: Props): ReactElement {
 
   const resetSchedule = () => {
     schedule.reset();
-    const initSchedule = getInitialState();
-    setCronState(initSchedule);
+    setCronState(
+      updateSchedule({
+        expression: defaultCronString ?? baseCron,
+        array: stringToArray(defaultCronString ?? baseCron),
+        error: "",
+        next: "",
+      })
+    );
     setResetSelectedValues(true);
   };
 
