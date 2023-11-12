@@ -1,6 +1,6 @@
 {
   "name": "neocron",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "private": false,
   "main": "dist/src/Neocron.js",
   "export": "dist/src/Neocron.js",
@@ -36,7 +36,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
-    "jq": "^1.7.2",
     "lucide-react": "^0.277.0",
     "luxon": "^3.4.3",
     "postcss": "8.4.31",
