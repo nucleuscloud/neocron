@@ -1,10 +1,10 @@
 {
   "name": "neocron",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "private": false,
-  "main": "dist/src/Neocron.js",
-  "export": "dist/src/Neocron.js",
-  "types": "dist/src/Neocron.d.ts",
+  "main": "dist/src/NeoCron.js",
+  "export": "dist/src/NeoCron.js",
+  "types": "dist/src/NeoCron.d.ts",
   "author": "Evis Drenova",
   "description": "A lightweight, modern chron editor",
   "repository": {
