@@ -15,4 +15,15 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const NeoCronC: Story = {};
+// Define the default args for your story
+const defaultArgs = {
+  cronString: '* * * * *', // Default cron string
+  defaultCronString: '* * * * *',
+  setCronString: (val: string) => console.log(val), // Dummy function for demonstration
+  disableInput: false,
+  disableSelectors: false,
+  disableExplainerText: false,
+  selectorText: 'Run every',
+};
+
+export const NeoCronC: Story = {args: defaultArgs};
