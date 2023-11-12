@@ -32,9 +32,10 @@ export function App() {
     setIsClient(true);
   }, []);
 
-  const [value, setValue] = useState('* * * * 2')
+  const [value, setValue] = useState('')
+  const defaultCronString = "* * * * 2,3"
 
-  return <Neocron cronString={value} setCronString={setValue} />
+  return <Neocron cronString={value} setCronString={setValue} defaultCronString={defaultCronString}/>
 }
 ```
 2. Import the shadcn components by updating your tailwind.config.js folder and adding in this path `./node_modules/neocron/dist/src/**/*.{js,css}",` to the content array like so:
@@ -66,8 +67,9 @@ export default config;
 
 | Prop Name            | Description                                                        |
 |----------------------|--------------------------------------------------------------------|
-| `cronString`         | Pass in a default cronString an                                    |
+| `cronString`         | The prop that will get the selected cron string                    |
 | `setCronString`      | A setter to set the cronString                                     |
+| `defaultCronString`  | A default cron string to start with                            |
 | `disableInput`       | Disable the input and only have drop down selectors                |
 | `disableSelectors`   | Disable the selectors and only have the input                      |
 | `disableExplainerText`| Disables the schedule explainer text                              |
