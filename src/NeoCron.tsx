@@ -1,17 +1,18 @@
-'use client';
-import { DateTime } from 'luxon';
-import { ReactElement, useEffect, useState } from 'react';
-import CronExpression from './components/CronExpression';
-import ScheduleExplainer from './components/ScheduleExplainer';
-import ScheduleSelectors from './components/ScheduleSelectors';
-import './globals.css';
-import { arrayToString, stringToArray } from './lib/part';
-import { Schedule, getSchedule } from './lib/schedule';
-import { CronState, ValuePayload } from './types';
+"use client";
+import { DateTime } from "luxon";
+import { ReactElement, useEffect, useState } from "react";
+import CronExpression from "./components/CronExpression";
+import ScheduleExplainer from "./components/ScheduleExplainer";
+import ScheduleSelectors from "./components/ScheduleSelectors";
+import "./globals.css";
+import { arrayToString, stringToArray } from "./lib/part";
+import { Schedule, getSchedule } from "./lib/schedule";
+import { CronState, ValuePayload } from "./types";
 
-const defaultCronString = '* * * * *';
+const defaultCronString = "* * * * *";
 
 interface Props {
+  cronString?: string;
   setCronString?: (val: string) => void; //updates the cron string itself
   disableInput?: boolean; //disable the input and only have drop down selectors
   disableSelectors?: boolean; //disable the selectors and only have the input
@@ -21,11 +22,12 @@ interface Props {
 
 export default function NeoCron(props: Props): ReactElement {
   const {
+    cronString,
     setCronString = () => {},
     disableInput = false,
     disableSelectors = false,
     disableExplainerText = false,
-    selectorText = 'Run every',
+    selectorText = "Run every",
   } = props;
 
   const updateSchedule = (state: CronState): CronState => {
@@ -38,11 +40,15 @@ export default function NeoCron(props: Props): ReactElement {
   };
 
   const getInitialState = (): CronState => {
+    const cs =
+      cronString !== defaultCronString
+        ? cronString ?? "* * * * *"
+        : defaultCronString;
     return updateSchedule({
-      expression: defaultCronString,
-      array: stringToArray(defaultCronString),
-      error: '',
-      next: '',
+      expression: cs,
+      array: stringToArray(cs),
+      error: "",
+      next: "",
     });
   };
 
@@ -54,7 +60,7 @@ export default function NeoCron(props: Props): ReactElement {
     useState<boolean>(false);
 
   const setExpression = (expression: string) => {
-    let newState: CronState = { ...cronState, expression, error: '' };
+    let newState: CronState = { ...cronState, expression, error: "" };
     try {
       newState.array = stringToArray(expression);
       newState = updateSchedule(newState);
@@ -67,7 +73,7 @@ export default function NeoCron(props: Props): ReactElement {
   const constructCronState = (payload: ValuePayload) => {
     const newArray = [...cronState.array];
     newArray[payload.index] = payload.values;
-    let newState: CronState = { ...cronState, array: newArray, error: '' };
+    let newState: CronState = { ...cronState, array: newArray, error: "" };
     try {
       newState.expression = arrayToString(newState.array);
       newState = updateSchedule(newState);
@@ -98,7 +104,7 @@ export default function NeoCron(props: Props): ReactElement {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col space-y-6">
       {!disableInput && (
         <CronExpression cronState={cronState} setExpression={setExpression} />
       )}
