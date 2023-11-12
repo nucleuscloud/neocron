@@ -16,7 +16,7 @@ npm i neocron
 
 
 ## Usage
-1. Include the neocron package in your app.tsx folder. 
+1. Include the neocron package in your app.tsx folder. We highly recommend enforcing that the component only render client-side to avoid client-server mismatches with times and timezones. You can easily do this by using a combination of state variables and useEffect. Make sure that Neocron renders conditionally as well. 
 
 ```javascript
 
@@ -24,6 +24,14 @@ import  Neocron from 'neocron'
 import 'neocron/dist/src/globals.css'
 
 export function App() {
+
+    const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    // This code runs after mount, indicating we're on the client
+    setIsClient(true);
+  }, []);
+
   const [value, setValue] = useState('* * * * 2')
 
   return <Neocron cronString={value} setCronString={setValue} />
