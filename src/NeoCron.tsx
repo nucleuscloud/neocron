@@ -1,15 +1,16 @@
-"use client";
-import { DateTime } from "luxon";
-import { ReactElement, useEffect, useState } from "react";
-import CronExpression from "./components/CronExpression";
-import ScheduleExplainer from "./components/ScheduleExplainer";
-import ScheduleSelectors from "./components/ScheduleSelectors";
-import "./globals.css";
-import { arrayToString, stringToArray } from "./lib/part";
-import { Schedule, getSchedule } from "./lib/schedule";
-import { CronState, ValuePayload } from "./types";
+'use client';
+import { DateTime } from 'luxon';
+import { ReactElement, useEffect, useState } from 'react';
+import CronExpression from './components/CronExpression';
+import ScheduleExplainer from './components/ScheduleExplainer';
+import ScheduleSelectors from './components/ScheduleSelectors';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs';
+import './globals.css';
+import { arrayToString, stringToArray } from './lib/part';
+import { Schedule, getSchedule } from './lib/schedule';
+import { CronState, ValuePayload } from './types';
 
-const baseCron = "* * * * *";
+const baseCron = '* * * * *';
 
 interface Props {
   cronString: string;
@@ -29,7 +30,7 @@ export default function NeoCron(props: Props): ReactElement {
     disableInput = false,
     disableSelectors = false,
     disableExplainerText = false,
-    selectorText = "Run every",
+    selectorText = 'Run every',
   } = props;
 
   const updateSchedule = (state: CronState): CronState => {
@@ -49,8 +50,8 @@ export default function NeoCron(props: Props): ReactElement {
     return updateSchedule({
       expression: cs,
       array: stringToArray(cs),
-      error: "",
-      next: "",
+      error: '',
+      next: '',
     });
   };
 
@@ -62,7 +63,7 @@ export default function NeoCron(props: Props): ReactElement {
     useState<boolean>(false);
 
   const setExpression = (expression: string) => {
-    let newState: CronState = { ...cronState, expression, error: "" };
+    let newState: CronState = { ...cronState, expression, error: '' };
     try {
       newState.array = stringToArray(expression);
       newState = updateSchedule(newState);
@@ -75,7 +76,7 @@ export default function NeoCron(props: Props): ReactElement {
   const constructCronState = (payload: ValuePayload) => {
     const newArray = [...cronState.array];
     newArray[payload.index] = payload.values;
-    let newState: CronState = { ...cronState, array: newArray, error: "" };
+    let newState: CronState = { ...cronState, array: newArray, error: '' };
     try {
       newState.expression = arrayToString(newState.array);
       newState = updateSchedule(newState);
@@ -104,41 +105,48 @@ export default function NeoCron(props: Props): ReactElement {
       updateSchedule({
         expression: defaultCronString ?? baseCron,
         array: stringToArray(defaultCronString ?? baseCron),
-        error: "",
-        next: "",
+        error: '',
+        next: '',
       })
     );
     setResetSelectedValues(true);
   };
 
   return (
-    <div className="flex flex-col space-y-6">
-      {!disableInput && (
-        <CronExpression cronState={cronState} setExpression={setExpression} />
-      )}
-      {disableInput ||
-        (disableSelectors ? null : (
-          <div className="flex-container">
-            <div className="divider-line"></div>
-            <span className="gray-text">or</span>
-            <div className="divider-line"></div>
-          </div>
-        ))}
-      {!disableSelectors && (
-        <ScheduleSelectors
-          constructCronState={constructCronState}
-          resetSchedule={resetSchedule}
-          cronState={cronState}
-          resetSelectedValues={resetSelectedValues}
-          setResetSelectedValues={setResetSelectedValues}
-          setError={setError}
-          selectorText={selectorText}
+    <div>
+      <Tabs defaultValue="builder">
+        <TabsList>
+          <TabsTrigger value="builder">Schedule Builder</TabsTrigger>
+          <TabsTrigger value="string">Cron String</TabsTrigger>
+        </TabsList>
+        <TabsContent value="builder">
+          {!disableSelectors && (
+            <ScheduleSelectors
+              constructCronState={constructCronState}
+              resetSchedule={resetSchedule}
+              cronState={cronState}
+              resetSelectedValues={resetSelectedValues}
+              setResetSelectedValues={setResetSelectedValues}
+              setError={setError}
+              selectorText={selectorText}
+            />
+          )}
+        </TabsContent>
+        <TabsContent value="string">
+          {!disableInput && (
+            <CronExpression
+              cronState={cronState}
+              setExpression={setExpression}
+            />
+          )}
+        </TabsContent>
+      </Tabs>
+      <div className="pt-4">
+        <ScheduleExplainer
+          state={cronState}
+          disableExplainerText={disableExplainerText}
         />
-      )}
-      <ScheduleExplainer
-        state={cronState}
-        disableExplainerText={disableExplainerText}
-      />
+      </div>
     </div>
   );
 }

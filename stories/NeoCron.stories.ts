@@ -26,4 +26,4 @@ const defaultArgs = {
   selectorText: 'Run every',
 };
 
-export const NeoCronC: Story = {args: defaultArgs};
+export const NeoCronC: Story = { args: defaultArgs };
